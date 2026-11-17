@@ -59,60 +59,108 @@
       prevB.disabled = cur === 0; nextB.disabled = cur === n - 1;
     }
 
-    // A real sheet turns: front = the page's content, back = blank paper with the print showing through.
-    // Forward: the current page lifts off its spine and turns to the left, revealing the next page underneath.
-    // Backward: the previous page comes back from the left and lays down over the current one.
-    function sheetFor(card, rect) {
-      var s = document.createElement("div");
-      s.className = "pg-sheet"; s.setAttribute("aria-hidden", "true");
-      s.style.left = rect.left + "px"; s.style.top = rect.top + "px"; s.style.width = rect.width + "px"; s.style.height = rect.height + "px";
-      var front = card.cloneNode(true);
-      front.classList.add("pg-front");
-      Array.prototype.forEach.call(front.querySelectorAll("[id]"), function (e) { e.removeAttribute("id"); });
-      front.removeAttribute("id");
-      var backFace = document.createElement("div"); backFace.className = "pg-back";
-      backFace.innerHTML = "<i></i><i></i><i></i><i></i><i></i><i></i>";
-      var shade = document.createElement("span"); shade.className = "pg-shade";
-      front.appendChild(shade);
-      s.appendChild(front); s.appendChild(backFace);
-      return s;
+    // ---- corner-curl page turn -------------------------------------------------
+    // The page peels from its bottom-right corner along a moving fold line.
+    // front = the page being turned (clipped to the part not yet folded)
+    // flap  = the folded-over part, mirrored across the fold, showing the paper's back
+    function clone(card) {
+      var c = card.cloneNode(true);
+      Array.prototype.forEach.call(c.querySelectorAll("[id]"), function (e) { e.removeAttribute("id"); });
+      c.removeAttribute("id"); c.classList.add("pc-front");
+      return c;
     }
-    function rectOf(role) {   // card position inside the box
+    function clipHalf(W, H, M, n, keepC) {      // polygon of the page on one side of the fold line
+      var pts = [[0, 0], [W, 0], [W, H], [0, H]], out = [];
+      function side(p) { var s = (p[0] - M[0]) * n[0] + (p[1] - M[1]) * n[1]; return keepC ? s : -s; }
+      for (var i = 0; i < 4; i++) {
+        var a = pts[i], b = pts[(i + 1) % 4], sa = side(a), sb = side(b);
+        if (sa >= 0) out.push(a);
+        if ((sa >= 0) !== (sb >= 0)) { var t = sa / (sa - sb); out.push([a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]); }
+      }
+      if (out.length < 3) return "polygon(0 0, 0 0, 0 0)";
+      return "polygon(" + out.map(function (p) { return p[0].toFixed(1) + "px " + p[1].toFixed(1) + "px"; }).join(",") + ")";
+    }
+    function gradPos(W, H, n, Q) {               // where point Q falls along a CSS linear-gradient in direction n
+      var L = Math.abs(W * n[0]) + Math.abs(H * n[1]);
+      var sx = W / 2 - n[0] * L / 2, sy = H / 2 - n[1] * L / 2;
+      return ((Q[0] - sx) * n[0] + (Q[1] - sy) * n[1]) / L * 100;
+    }
+    function curl(turning, under, backwards, done) {
+      var card = turning.querySelector(".tl-card"), r = rectOf(turning);
+      var W = r.width, H = r.height;
+      var stage = document.createElement("div");
+      stage.className = "pc-stage"; stage.setAttribute("aria-hidden", "true");
+      stage.style.cssText = "left:" + r.left + "px;top:" + r.top + "px;width:" + W + "px;height:" + H + "px";
+      var front = clone(card), flapWrap = document.createElement("div"), flap = document.createElement("div"), shade = document.createElement("div"), cast = document.createElement("div");
+      flapWrap.className = "pc-flapwrap"; flap.className = "pc-flap"; shade.className = "pc-fshade"; cast.className = "pc-cast";
+      flap.innerHTML = "<i></i><i></i><i></i><i></i><i></i><i></i>";
+      front.appendChild(shade); flapWrap.appendChild(flap);
+      stage.appendChild(cast); stage.appendChild(front); stage.appendChild(flapWrap);
+      box.appendChild(stage);
+      under.classList.add("pg-under");
+      var C = [W, H], E = [-W * 1.1, -H * .35], D = 1150, t0 = performance.now();
+      function frame(now) {
+        var k = Math.min(1, (now - t0) / D);
+        var e = k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;   // easeInOutCubic
+        if (backwards) e = 1 - e;
+        // the corner travels toward the top-left with a slight upward lift
+        var lift = Math.sin(e * Math.PI) * H * .14;
+        var P = [C[0] + (E[0] - C[0]) * e, C[1] + (E[1] - C[1]) * e - lift];
+        var dx = C[0] - P[0], dy = C[1] - P[1], len = Math.hypot(dx, dy) || 1;
+        var n = [dx / len, dy / len], M = [(C[0] + P[0]) / 2, (C[1] + P[1]) / 2];
+        front.style.clipPath = clipHalf(W, H, M, n, false);
+        var cut = clipHalf(W, H, M, n, true);
+        flap.style.clipPath = cut;
+        // reflection across the fold line (direction u = perpendicular to n)
+        var ux = -n[1], uy = n[0], a = ux * ux - uy * uy, b = 2 * ux * uy, d = uy * uy - ux * ux;
+        var tx = M[0] - (a * M[0] + b * M[1]), ty = M[1] - (b * M[0] + d * M[1]);
+        flap.style.transform = "matrix(" + a + "," + b + "," + b + "," + d + "," + tx + "," + ty + ")";
+        // paper shading: crease is darker, the curl catches light, the edge falls into shadow
+        var deg = Math.atan2(n[0], -n[1]) * 180 / Math.PI, f = gradPos(W, H, n, M), c = gradPos(W, H, n, C);
+        var span = Math.max(1, c - f);
+        flap.style.background = "linear-gradient(" + deg + "deg, #c9c3b6 " + f + "%, #f4f0e6 " + (f + span * .18) + "%, #fffdf7 " + (f + span * .45) + "%, #e6e0d2 " + c + "%)";
+        shade.style.background = "linear-gradient(" + deg + "deg, transparent " + (f - 9) + "%, rgba(0,0,0,.16) " + (f - .5) + "%, transparent " + f + "%)";
+        cast.style.clipPath = cut;
+        cast.style.background = "linear-gradient(" + deg + "deg, rgba(0,0,0,.30) " + f + "%, rgba(0,0,0,.08) " + (f + 12) + "%, transparent " + (f + 26) + "%)";
+        flapWrap.style.opacity = e > .82 ? Math.max(0, (1 - e) / .18).toFixed(3) : 1;
+        if (k < 1) requestAnimationFrame(frame);
+        else { stage.remove(); under.classList.remove("pg-under"); done(); }
+      }
+      requestAnimationFrame(frame);
+    }
+    function rectOf(role) {
       var c = role.querySelector(".tl-card");
       return { left: role.offsetLeft + c.offsetLeft, top: role.offsetTop + c.offsetTop, width: c.offsetWidth, height: c.offsetHeight };
     }
-    var DUR = 1000;
     function go(to, instant) {
       if (to === cur || to < 0 || to >= n || busy) return;
       var back = to < cur, old = pages[cur], nu = pages[to];
       if (instant) { cur = to; paint(); return; }
       busy = true;
-      var h0 = box.offsetHeight;
-      var turning = back ? nu : old;          // the page that is the moving sheet
-      var under = back ? old : nu;            // the page that stays flat underneath
-      // measure the turning page where it sits
-      if (back) { cur = to; paint(); }        // show the new (previous) page briefly to measure it
-      var r = rectOf(turning);
-      var sheet = sheetFor(turning.querySelector(".tl-card"), r);
-      // show the page underneath, hide the turning one (the sheet stands in for it)
+      // forward: the current page curls away revealing the next one underneath
+      // backward: the previous page curls back down over the current one
+      var turning = back ? nu : old, under = back ? old : nu;
+      cur = to; paint();
       pages.forEach(function (p) { p.classList.toggle("pg-cur", p === under); });
-      if (!back) { cur = to; paint(); pages.forEach(function (p) { p.classList.toggle("pg-cur", p === under); }); }
-      var h1 = box.offsetHeight;
-      under.classList.add("pg-under"); if (back) under.classList.add("back");
-      box.appendChild(sheet);
-      sheet.classList.add(back ? "in" : "out");
-      box.style.height = h0 + "px"; void box.offsetHeight;
-      box.style.height = Math.max(h1, back ? r.top + r.height + 90 : h1) + "px";
-      setTimeout(function () {
-        sheet.remove();
-        under.classList.remove("pg-under", "back");
-        paint();                              // the page we turned to is now the flat, current page
-        box.style.height = "";
-        busy = false;
+      turning.classList.add("pg-cur", "pg-ghost");      // laid out exactly where the page underneath sits, but invisible
+      turning.style.top = under.offsetTop + "px"; turning.style.left = under.offsetLeft + "px"; turning.style.width = under.offsetWidth + "px";
+      curl(turning, under, back, function () {
+        turning.classList.remove("pg-ghost"); turning.style.top = turning.style.left = turning.style.width = "";
+        paint(); busy = false;
         if (window.__tmRemeasure) window.__tmRemeasure();
         window.dispatchEvent(new Event("scroll"));
-      }, DUR + 30);
+      });
     }
+
+    // every page gets the same height (the tallest page), so the book never jumps
+    function equalize() {
+      box.classList.add("pg-measure"); box.style.setProperty("--pg-h", "0px");
+      var m = 0; pages.forEach(function (p) { m = Math.max(m, p.querySelector(".tl-card").offsetHeight); });
+      box.classList.remove("pg-measure"); box.style.setProperty("--pg-h", m + "px");
+    }
+    equalize();
+    window.addEventListener("resize", function () { if (!busy) equalize(); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { if (!busy) equalize(); });
 
     nav.addEventListener("click", function (e) {
       var b = e.target.closest("button"); if (!b || b.disabled) return;

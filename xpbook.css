@@ -169,3 +169,35 @@
 @keyframes pgBackOut { 0%, 78% { opacity: 1; } 100% { opacity: 0; } }
 @keyframes pgBackIn { 0% { opacity: 0; } 22%, 100% { opacity: 1; } }
 .pg-sheet .pg-front { contain: none !important; }
+
+/* =====================================================================
+   Corner-curl turn + equal pages
+   ===================================================================== */
+/* pages fill the brochure panel and all share the tallest page's height */
+.tl-roles.paged { display: flex; flex-direction: column; }
+.paged .tl-role.pg-cur { flex: 1 0 auto; display: flex; flex-direction: column; }
+.paged .tl-role.pg-cur > .tl-card { flex: 1 0 auto; min-height: var(--pg-h, 0px); display: flex; flex-direction: column; }
+.paged .tl-role.pg-cur > .tl-card > .tl-chips { margin-top: auto; }
+.paged .pg-nav { flex: none; }
+.paged.pg-measure .tl-role { display: block !important; }
+.paged.pg-measure .tl-card { min-height: 0 !important; }
+.paged .tl-role.pg-ghost { position: absolute; visibility: hidden; margin: 0; }
+
+/* the turning page */
+.pc-stage { position: absolute; z-index: 6; pointer-events: none; }
+.pc-stage > * { position: absolute; inset: 0; }
+.pc-front { margin: 0 !important; opacity: 1 !important; transform: none !important; contain: none !important; }
+.pc-front .tl-list li { opacity: 1 !important; transform: none !important; }
+.pc-front .tl-span i { transform: none !important; }
+.pc-fshade { position: absolute; inset: 0; z-index: 9; pointer-events: none; border-radius: inherit; }
+.pc-cast { z-index: 0; border-radius: 20px; }
+.pc-flapwrap { z-index: 10; filter: drop-shadow(-10px 12px 14px rgba(0,0,0,.28)); }
+.pc-flap { position: absolute; inset: 0; transform-origin: 0 0; border-radius: 20px; overflow: hidden; }
+/* faint print showing through the back of the paper */
+.pc-flap i { display: block; height: 9px; margin: 0 28px 14px; border-radius: 5px; background: rgba(0,0,0,.05); }
+.pc-flap i:first-child { margin-top: 30px; width: 40%; } .pc-flap i:nth-child(2) { width: 70%; height: 16px; }
+.pc-flap i:nth-child(3) { width: 82%; } .pc-flap i:nth-child(4) { width: 76%; } .pc-flap i:nth-child(5) { width: 60%; } .pc-flap i:nth-child(6) { width: 44%; }
+/* the page underneath: no extra shading of its own (the cast shadow covers it) */
+.paged .tl-role.pg-under .tl-card::after { display: none !important; }
+.pc-front .tl-body { grid-template-rows: 1fr !important; }
+.pc-front .tl-count { display: none; }
