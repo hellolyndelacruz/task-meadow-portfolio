@@ -1,0 +1,54 @@
+/* =====================================================================
+   The Task Meadow · trail-map camp labels (all screens) + stats redesign
+   ===================================================================== */
+.sc-strip, .sc-strip + .m-row-hint, #scStrip { display: none !important; }
+.sc-camp::after { content: attr(data-yr) "\A" attr(data-lab); white-space: pre; position: absolute; left: 50%; top: calc(100% + 4px); transform: translateX(-50%);
+  padding: 2px 6px; border-radius: 6px; font: 700 8.5px/1.25 var(--f-body); text-align: center; color: var(--ink); background: color-mix(in srgb, var(--card) 88%, transparent);
+  box-shadow: 0 2px 6px -3px rgba(0,0,0,.4); pointer-events: none; opacity: 0; transition: opacity .4s; }
+.sc-camp:nth-child(even)::after { top: auto; bottom: calc(100% + 4px); }
+.sc-camp.reached::after { opacity: 1; }
+.sc-camp.is-cur::after { background: var(--green-d); color: #fff; }
+.sc-camp.top::after { display: none; }
+@media (min-width: 761px) {
+  .sc-camp::after { font-size: 11px; padding: 3px 9px; border-radius: 8px; top: calc(100% + 6px); }
+  .sc-camp:nth-child(even)::after { bottom: calc(100% + 6px); }
+}
+
+/* ---------- stats: altimeter tiles ---------- */
+.cs-stat { --v: 1; flex-direction: column !important; align-items: flex-start !important; justify-content: space-between !important; gap: 6px !important;
+  padding: 16px 18px 14px !important; border-radius: 20px; background: linear-gradient(160deg, var(--card), var(--card-2)); overflow: hidden; }
+.cs-stat:nth-child(1) { --v: 1; } .cs-stat:nth-child(2) { --v: .73; } .cs-stat:nth-child(3) { --v: .9; } .cs-stat:nth-child(4) { --v: .55; }
+.cs-stat::after { display: none; }
+/* icon as a small chip in the corner (the old ring is hidden) */
+.cs-ring { position: absolute !important; right: 14px; top: 14px; width: 38px !important; height: 38px !important; border-radius: 12px; font-size: 15px !important;
+  color: #fff !important; background: linear-gradient(140deg, color-mix(in srgb, var(--green) 75%, #fff), var(--green-d)); box-shadow: 0 8px 16px -10px var(--green-d); }
+.cs-ring svg { display: none; }
+.cs-ring i { transform: scale(0) rotate(-30deg); }
+.cs-stats.in .cs-ring i { transform: none; }
+/* label on top, big gradient number below */
+.cs-txt { display: flex; flex-direction: column-reverse; gap: 2px; }
+.cs-txt small { margin: 0 !important; font-size: 10.5px !important; letter-spacing: .12em !important; }
+.cs-txt b { font-size: clamp(38px, 3.6vw, 50px) !important; line-height: 1 !important; letter-spacing: -.03em;
+  background: linear-gradient(180deg, var(--ink) 40%, color-mix(in srgb, var(--green) 80%, var(--ink))); -webkit-background-clip: text; background-clip: text; color: transparent; }
+/* elevation line that draws in, plus a meter */
+.cs-stat::before { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 46px; opacity: .22; pointer-events: none;
+  background: var(--green); clip-path: polygon(0 100%, 0 70%, 12% 55%, 22% 68%, 36% 30%, 48% 52%, 62% 18%, 74% 44%, 86% 26%, 100% 40%, 100% 100%);
+  transform: translateY(100%); transition: transform 1s cubic-bezier(.16,1,.3,1); transition-delay: calc(.2s + var(--i) * .12s); }
+.cs-stats.in .cs-stat::before { transform: none; }
+.cs-meter { display: block; width: 100%; height: 5px; border-radius: 5px; background: var(--track); overflow: hidden; position: relative; z-index: 1; }
+.cs-meter i { display: block; height: 100%; width: calc(var(--v) * 100%); border-radius: inherit; background: linear-gradient(90deg, var(--green), var(--gold));
+  transform: scaleX(0); transform-origin: left; transition: transform 1.3s cubic-bezier(.65,0,.35,1); transition-delay: calc(.4s + var(--i) * .15s); }
+.cs-stats.in .cs-meter i { transform: none; }
+/* shine sweep once on entry and on hover */
+.cs-stat > .cs-shine { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.55) 50%, transparent 65%); transform: translateX(-120%); }
+.cs-stats.in .cs-shine { animation: csShine 1.2s calc(.6s + var(--i) * .15s) ease-out both; }
+.cs-stat:hover .cs-shine { animation: csShine .9s ease-out; }
+@keyframes csShine { to { transform: translateX(120%); } }
+.cs-stat:hover { transform: translateY(-5px) rotate(-.6deg) !important; }
+.cs-stat:hover .cs-ring { transform: rotate(-10deg) scale(1.08); transition: transform .4s cubic-bezier(.2,.8,.2,1.5); }
+@media (max-width: 760px) {
+  .cs-stat { padding: 12px !important; }
+  .cs-ring { width: 30px !important; height: 30px !important; right: 10px; top: 10px; font-size: 12px !important; }
+  .cs-txt b { font-size: 30px !important; }
+  .cs-txt small { font-size: 9px !important; max-width: 70%; }
+}
