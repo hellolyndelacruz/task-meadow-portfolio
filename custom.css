@@ -1,49 +1,5 @@
 /* Task Meadow portfolio · additions on top of style.css
-   Experience trail, education card, recommendation letters */
-
-/* ---------- Experience section header (same card look as the old training header) ---------- */
-#experience .tablecloth { padding-top: 80px; }
-#experience .sec-head { background: var(--card-a); width: fit-content; max-width: 100%; margin: 0 auto 34px; padding: 22px 34px 20px; border-radius: 22px; box-shadow: var(--shadow-sm); }
-#experience .sec-head .lead { margin-bottom: 0; }
-
-/* ---------- Career at a glance ---------- */
-.glance { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 22px 26px 18px; margin: 0 auto 40px; max-width: 900px; }
-.glance-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
-.glance-head b { font: 700 20px var(--f-display); }
-.glance-head small { font: 600 12px var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
-.glance-bar { position: relative; display: flex; height: 40px; border-radius: 12px; overflow: hidden; background: var(--track); }
-.glance-bar span { display: flex; align-items: center; justify-content: center; gap: 8px; color: #fff; font: 700 14px var(--f-body); white-space: nowrap; overflow: hidden; transform-origin: left; transform: scaleX(0); transition: transform 1.1s cubic-bezier(.2,.8,.2,1); }
-.glance.in .glance-bar span { transform: scaleX(1); }
-.glance.in .glance-bar span + span { transition-delay: .35s; }
-.glance-bar .g-nanox { flex: 3; background: linear-gradient(90deg, var(--wood), #c79253); }
-.glance-bar .g-taskus { flex: 8.9; background: linear-gradient(90deg, var(--green-d), var(--green)); }
-.glance-years { display: flex; justify-content: space-between; margin-top: 8px; font: 600 11px var(--f-mono); color: var(--ink-2); }
-.glance-note { margin: 12px 0 0; text-align: center; font-size: 15px; color: var(--ink-2); }
-
-/* ---------- Trail of employers & roles ---------- */
-.trail { position: relative; display: grid; gap: 34px; max-width: 960px; margin: 0 auto; }
-.employer { position: relative; }
-.employer .emp-head { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; padding-bottom: 16px; border-bottom: 2px dashed var(--line); }
-.emp-ico { width: 56px; height: 56px; flex: none; display: grid; place-items: center; border-radius: 16px; background: var(--c, var(--green)); color: #fff; font-size: 24px; box-shadow: var(--shadow-sm); }
-.emp-txt { flex: 1; min-width: 200px; }
-.emp-txt h3 { font-size: clamp(20px, 2.4vw, 26px); margin: 0 0 2px; line-height: 1.25; }
-.emp-txt p { margin: 0; color: var(--ink-2); font-weight: 600; }
-.emp-when { text-align: right; font: 600 12px var(--f-mono); letter-spacing: .06em; color: var(--ink-2); }
-.emp-when b { display: block; font: 800 22px var(--f-display); color: var(--c, var(--green)); letter-spacing: 0; }
-
-.roles { list-style: none; margin: 0; padding: 0 0 0 28px; position: relative; display: grid; gap: 16px; }
-.roles::before { content: ""; position: absolute; left: 8px; top: 8px; bottom: 8px; border-left: 3px dotted color-mix(in srgb, var(--c, var(--green)) 55%, transparent); }
-.role { position: relative; background: var(--card-2); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px 14px; transition: transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s; }
-.role:hover { transform: translateX(4px); box-shadow: var(--shadow-sm); }
-.role::before { content: ""; position: absolute; left: -27px; top: 20px; width: 14px; height: 14px; border-radius: 50%; background: var(--card); border: 3px solid var(--c, var(--green)); }
-.role.now::before { background: var(--c, var(--green)); box-shadow: 0 0 0 5px color-mix(in srgb, var(--c, var(--green)) 25%, transparent); }
-.role-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
-.role h4 { margin: 0; font-size: 17.5px; line-height: 1.35; }
-.role-date { font: 600 12px var(--f-mono); color: var(--ink-2); white-space: nowrap; display: inline-flex; align-items: center; gap: 8px; }
-.role-date .now-pill { background: var(--red); color: #fff; padding: 2px 8px; border-radius: 999px; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; }
-.role ul { margin: 0; padding: 0; list-style: none; }
-.role li { position: relative; padding: 3px 0 3px 22px; font-size: 15.5px; line-height: 1.55; }
-.role li::before { content: "\f00c"; font: 900 10px "Font Awesome 6 Free"; position: absolute; left: 0; top: 8px; width: 15px; height: 15px; display: grid; place-items: center; border-radius: 50%; background: var(--sky); color: var(--blue); }
+   Education card, recommendation letters */
 
 /* ---------- Education (inside the intro letter) ---------- */
 .edu { margin-top: 26px; padding-top: 18px; border-top: 2px dashed var(--line); line-height: 1.5; }
@@ -69,12 +25,5 @@
 #recommendations .pass-stub .barcode { margin-left: auto; }
 
 @media (max-width: 640px) {
-  .emp-when { text-align: left; width: 100%; }
-  .emp-when b { display: inline; margin-right: 8px; }
-  .roles { padding-left: 22px; }
-  .role::before { left: -21px; }
-  .roles::before { left: 5px; }
-  .glance-bar span { font-size: 12px; }
-  .glance-bar .g-nanox span.lbl { display: none; }
   .rec-quote { font-size: 19px; }
 }
