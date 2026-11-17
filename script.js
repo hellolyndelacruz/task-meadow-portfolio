@@ -461,23 +461,28 @@
   (function () {
     var box = $("typer"), kb = $("kb");
     if (!box || !kb) return;
-    var rows = [
-      ["esc", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "⌫", "knob"],
-      ["⇥", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "\\"],
-      ["⇪", "a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "'", "⏎"],
-      ["⇧", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", "⇧", "↑"],
-      ["ctrl", "⌥", "⌘", " ", "⌘", "fn", "←", "↓", "→"]
+    // TKL board in white & mint (matches the sample): [id, label, width-in-units, extra class]
+    // ids keep the old names so the typing animation can find keys; "|" = gap, "_" = half gap
+    var G = "green", rows = [
+      [["esc", "Esc"], "|", ["f1", "F1"], ["f2", "F2"], ["f3", "F3"], ["f4", "F4"], "_", ["f5", "F5"], ["f6", "F6"], ["f7", "F7"], ["f8", "F8"], "_", ["f9", "F9"], ["f10", "F10"], ["f11", "F11"], ["f12", "F12"], "_", ["prt", "Print"], ["scr", "Scroll"], ["pau", "Pause"]],
+      [["`", "~<br>`"], ["1", "!<br>1"], ["2", "@<br>2"], ["3", "#<br>3"], ["4", "$<br>4"], ["5", "%<br>5"], ["6", "^<br>6"], ["7", "&amp;<br>7"], ["8", "*<br>8", 1, G], ["9", "(<br>9", 1, G], ["0", ")<br>0"], ["-", "_<br>-", 1, G], ["=", "+<br>=", 1, G], ["⌫", "Backspace", 2], "_", ["ins", "Insert"], ["hom", "Home"], ["pgu", "PgUp"]],
+      [["⇥", "Tab", 1.5], ["q", "Q"], ["w", "W"], ["e", "E"], ["r", "R"], ["t", "T"], ["y", "Y"], ["u", "U", 1, G], ["i", "I", 1, G], ["o", "O", 1, G], ["p", "P", 1, G], ["[", "{<br>[", 1, G], ["]", "}<br>]", 1, G], ["\\", "|<br>\\", 1.5], "_", ["del", "Delete"], ["end", "End"], ["pgd", "PgDn"]],
+      [["⇪", "Caps Lock", 1.75], ["a", "A"], ["s", "S"], ["d", "D"], ["f", "F"], ["g", "G"], ["h", "H"], ["j", "J"], ["k", "K", 1, G], ["l", "L", 1, G], [";", ":<br>;", 1, G], ["'", "♥♥", 1, G], ["⏎", "Enter", 2.25], "_", ["_x1", "", 3, "ghost"]],
+      [["⇧", "⇧ Shift", 2.25], ["z", "Z"], ["x", "X"], ["c", "C"], ["v", "V"], ["b", "B"], ["n", "N"], ["m", "M"], [",", "&lt;<br>,"], [".", "&gt;<br>.", 1, G], ["/", "?<br>/"], ["⇧r", "⇧ Shift ♥♥♥", 2.75], "_", ["_x2", "", 1, "ghost"], ["↑", "♥"], ["_x3", "", 1, "ghost"]],
+      [["ctrl", "Control", 1.25], ["sys", "System", 1.25], ["⌥", "Alt", 1.25], [" ", "", 6.25, "space"], ["♥", "♥", 1.25], ["⌥r", "Alt", 1.25], ["fn", "Fn", 1.25], ["ctrlr", "Control", 1.25], "_", ["←", "♥"], ["↓", "♥"], ["→", "♥"]]
     ];
-    var deep = "56tyghbnrfvuj", white = ["esc", "⏎", "⌫", " "], keys = {};
+    var keys = {}, mk = kb.parentNode;
+    if (mk) mk.classList.add("tkl");
     rows.forEach(function (r, ri) {
-      var row = document.createElement("div"); row.className = "kr kr" + ri;
+      var row = document.createElement("div"); row.className = "kr tk-row tk-row" + ri;
       r.forEach(function (k) {
         var el = document.createElement("span");
-        if (k === "knob") { el.className = "knob"; row.appendChild(el); return; }
-        var mod = k.length > 1 || "⌫⇥⇪⏎⇧⌥⌘←↓→↑".indexOf(k) > -1;
-        el.className = "key" + (k === " " ? " space" : mod ? " mod" : "") + (k.length === 1 && deep.indexOf(k) > -1 ? " deep" : "") + (white.indexOf(k) > -1 ? " white" : "");
-        if (k === "esc") el.innerHTML = '<span class="kcross"></span>'; else el.textContent = k === " " ? "" : k;
-        if (!keys[k]) keys[k] = el;
+        if (k === "|" || k === "_") { el.className = "tk-gap" + (k === "|" ? " big" : ""); row.appendChild(el); return; }
+        var id = k[0], w = k[2] || 1, cls = k[3] || "";
+        el.className = "tk" + (cls ? " " + cls : "") + (k[1].length > 3 && k[1].indexOf("<br>") < 0 ? " word" : "");
+        el.style.setProperty("--w", w);
+        if (cls !== "ghost") el.innerHTML = "<i>" + k[1] + "</i>";
+        if (!keys[id]) keys[id] = el;
         row.appendChild(el);
       });
       kb.appendChild(row);

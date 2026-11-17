@@ -1,0 +1,51 @@
+/* =====================================================================
+   The Task Meadow · desk: white & mint TKL keyboard, pebble mouse,
+   ribbed mint mug and a crystal vase bouquet
+   ===================================================================== */
+/* ---------- keyboard case ---------- */
+.setup .mk.tkl { --u: 27px; --gap: 3px; padding: 14px 16px 16px !important; border-radius: 22px !important;
+  background: radial-gradient(120% 90% at 30% 0%, #ffffff, #f4f6f1 55%, #e3e8de) !important;
+  box-shadow: inset 0 2px 0 #fff, inset 0 -3px 6px rgba(0,0,0,.06),
+              0 2px 0 #e1e6da, 0 4px 0 #d3d9cb, 0 6px 0 #c6cdbd, 0 7px 2px rgba(0,0,0,.18), 0 26px 34px -16px rgba(40,50,35,.45) !important; }
+.setup .mk.tkl::after { display: none !important; }
+/* dark plate showing between the keys */
+.mk.tkl .kb { gap: var(--gap) !important; padding: 5px; border-radius: 10px; background: linear-gradient(180deg, #4d5a51, #3d4842); box-shadow: inset 0 2px 4px rgba(0,0,0,.45); }
+.mk.tkl .tk-row { display: flex; gap: var(--gap) !important; }
+.mk.tkl .tk-row0 { margin-bottom: 5px; }
+.mk.tkl .tk-gap { flex: none; width: calc(var(--u) * .45); }
+.mk.tkl .tk-gap.big { width: calc(var(--u) * .9); }
+.mk.tkl .tk-row0, .mk.tkl .tk-row1, .mk.tkl .tk-row2, .mk.tkl .tk-row3, .mk.tkl .tk-row4, .mk.tkl .tk-row5 { background: none; }
+
+/* ---------- keycaps (MDA-ish profile: skirt + dished top) ---------- */
+.tk { position: relative; flex: none; isolation: isolate; width: calc(var(--u) * var(--w) + var(--gap) * (var(--w) - 1)); height: var(--u);
+  border-radius: 6px; background: linear-gradient(180deg, #dfe9d9, #c5d3bf); box-shadow: 0 1px 0 #b3c2ac, 0 2px 1px rgba(0,0,0,.25);
+  display: grid; place-items: center; color: #5f9a63; font: 700 7.5px/1.05 var(--f-body); text-align: center; letter-spacing: .01em; }
+.tk::before { content: ""; position: absolute; z-index: -1; left: 2.5px; right: 2.5px; top: 1.5px; bottom: 3.5px; border-radius: 5px;
+  background: radial-gradient(ellipse 80% 60% at 50% 35%, #ffffff, transparent 75%), linear-gradient(180deg, #ffffff 0%, #f4f8f1 45%, #e3eedd 100%);
+  box-shadow: inset 0 -2px 2px rgba(110,140,100,.12), inset 0 1px 0 #fff; }
+.tk i { font-style: normal; position: relative; top: -1px; }
+.tk.word { font-size: 6.5px; }
+.tk.space i { display: none; }
+/* green accent caps */
+.tk.green { color: #ffffff; background: linear-gradient(180deg, #7fbc84, #5f9f66); box-shadow: 0 1px 0 #4f8a56, 0 2px 1px rgba(0,0,0,.28); }
+.tk.green::before { background: radial-gradient(ellipse 80% 60% at 50% 35%, rgba(255,255,255,.55), transparent 75%), linear-gradient(180deg, #b3dcb2, #93c995 50%, #7ab87e); box-shadow: inset 0 -2px 2px rgba(0,0,0,.08), inset 0 1px 0 rgba(255,255,255,.7); }
+/* empty slots in the nav cluster */
+.tk.ghost { visibility: hidden; }
+/* key press from the typing animation */
+.tk.down { animation: tkDown .17s ease-out; }
+@keyframes tkDown { 0% { transform: translateY(2px); box-shadow: 0 0 0 #b3c2ac; } }
+
+/* ---------- mouse ---------- */
+.setup .mouse2 { flex: none; width: 96px; height: 120px; margin: 0 0 4px; filter: none; transform: rotate(-6deg); }
+
+/* ---------- vase + mug placement ---------- */
+.setup .vase2 { left: -1% !important; top: calc(62% - 210px) !important; width: 150px !important; height: 225px !important; filter: none !important; }
+.setup .mug2 { right: 2% !important; top: calc(62% - 30px) !important; width: 120px !important; height: 106px !important; filter: none !important; }
+.setup .mug2 .mg-steam path { animation: mgSteam 3.2s ease-in-out infinite; transform-box: fill-box; }
+.setup .mug2 .mg-steam path + path { animation-delay: -1.6s; }
+@keyframes mgSteam { 0% { opacity: 0; transform: translateY(6px); } 40% { opacity: .7; } 100% { opacity: 0; transform: translateY(-10px); } }
+
+@media (max-width: 1100px) { .setup .mk.tkl { --u: 22px; } .tk { font-size: 6px; } .tk.word { font-size: 5.5px; } }
+.setup svg.prop.vase.vase2 { left: -1.5% !important; top: auto !important; bottom: 29% !important; width: 170px !important; height: 255px !important; z-index: 5 !important; }
+.setup svg.prop.mug.mug2 { width: 130px !important; height: 115px !important; }
+.setup .mouse2 { transform: rotate(-4deg); }
