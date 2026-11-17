@@ -27,7 +27,8 @@
   <link rel="stylesheet" href="scene.css?v=4">
   <link rel="stylesheet" href="trail.css?v=4">
   <link rel="stylesheet" href="polish.css?v=4">
-  <link rel="stylesheet" href="bold.css?v=4">
+  <link rel="stylesheet" href="bold.css?v=5">
+  <link rel="stylesheet" href="summit.css?v=2">
   <link rel="stylesheet" href="themes.css?v=5">
   <link rel="stylesheet" href="mobile.css?v=2" media="(max-width: 760px)">
 </head>
@@ -549,17 +550,33 @@
         </div>
 
         <div class="tl" id="xpTrail">
-          <div class="tl-summit reveal" id="xp-summit">
-            <span class="tl-blob b1" aria-hidden="true"></span><span class="tl-blob b2" aria-hidden="true"></span><span class="tl-grid" aria-hidden="true"></span>
-            <svg class="tl-peaks" viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 120 L70 62 L110 84 L180 20 L230 70 L270 48 L330 96 L400 58 V120Z"/><path class="sn" d="M165 34 L180 20 L196 37 L186 33 L178 40 L172 33Z"/></svg>
-            <div class="tl-summit-txt">
-              <p class="tl-kick"><span class="tl-pulse"></span> Next summit · Now</p>
-              <h3>Virtual Assistant <span class="script">Task Meadow</span></h3>
-              <p>Admin &amp; operations support for business owners, with Medical VA and HIPAA training packed for the climb.</p>
+          <div class="smt reveal" id="xp-summit">
+            <div class="smt-art" aria-hidden="true">
+              <svg viewBox="0 0 300 170" preserveAspectRatio="xMidYMax slice">
+                <circle class="smt-sun" cx="140" cy="40" r="16"/>
+                <path class="smt-m3" d="M0 170 V112 L48 84 L96 108 L150 66 L204 100 L250 72 L300 96 V170Z"/>
+                <path class="smt-m2" d="M0 170 V136 L60 110 L120 132 L176 104 L236 128 L300 112 V170Z"/>
+                <g class="smt-peak">
+                  <path class="smt-m1" d="M0 170 V158 L70 140 L130 118 L180 88 L222 56 L262 98 L300 120 V170Z"/>
+                  <path class="smt-snow" d="M208 66 L222 56 L236 70 L228 68 L222 74 L215 68Z"/>
+                </g>
+                <path class="smt-trail" d="M18 150 C60 146 78 128 110 124 C140 120 150 100 176 92 C196 86 206 70 222 58"/>
+              </svg>
+              <span class="smt-hiker"><i class="fa-solid fa-person-hiking"></i></span>
+              <span class="smt-flag"><span class="cross"></span></span>
+              <span class="smt-cloud"></span>
             </div>
-            <div class="tl-summit-cta">
-              <a href="#contact" class="tl-btn"><i class="fa-regular fa-paper-plane"></i> Let’s work together</a>
-              <a href="assets/Marilyn-Dela-Cruz-Resume.pdf" class="tl-btn ghost" target="_blank" rel="noopener" download><i class="fa-solid fa-file-arrow-down"></i> Download CV</a>
+            <div class="smt-body">
+              <p class="smt-kick"><span class="smt-pulse"></span> Next summit · Now</p>
+              <h3>Virtual Assistant <span class="script">Task Meadow</span></h3>
+              <p class="smt-rot">Ready to take on
+                <span class="smt-words"><span><b>admin &amp; records</b><b>inbox &amp; clients</b><b>scheduling</b><b>data quality</b><b>admin &amp; records</b></span></span>
+              </p>
+              <ul class="smt-chips"><li><i class="fa-solid fa-stethoscope"></i> Medical VA trained</li><li><i class="fa-solid fa-shield-halved"></i> HIPAA</li><li><i class="fa-solid fa-earth-asia"></i> Remote · PH</li></ul>
+            </div>
+            <div class="smt-cta">
+              <a href="#contact" class="smt-btn"><span>Let’s work together</span><i class="fa-solid fa-arrow-right"></i></a>
+              <a href="assets/Marilyn-Dela-Cruz-Resume.pdf" class="smt-btn ghost" target="_blank" rel="noopener" download><i class="fa-solid fa-file-arrow-down"></i><span>Download CV</span></a>
             </div>
           </div>
 
@@ -1020,5 +1037,6 @@
   <script src="script.js?v=54"></script>
   <script src="enhance.js?v=4"></script>
   <script src="polish.js?v=4"></script>
+  <script src="summit.js?v=1"></script>
 </body>
 </html>

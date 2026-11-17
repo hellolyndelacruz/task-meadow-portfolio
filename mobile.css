@@ -97,9 +97,6 @@
 .cs-txt small { font-size: 9.5px !important; }
 .sc-strip { grid-template-columns: none !important; }
 .sc-chip-ico { width: 34px; height: 34px; font-size: 12px; }
-.tl-summit { padding: 22px 18px !important; margin-bottom: 30px !important; }
-.tl-summit h3 { font-size: 26px !important; }
-.tl-summit-cta { flex-direction: row !important; }
 .tl-btn { padding: 11px 14px; font-size: 14px; }
 .tl-group { margin-bottom: 28px !important; gap: 12px !important; }
 .tl-co-card { padding: 16px !important; }
