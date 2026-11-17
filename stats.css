@@ -52,3 +52,15 @@
   .cs-txt b { font-size: 30px !important; }
   .cs-txt small { font-size: 9px !important; max-width: 70%; }
 }
+
+/* desktop: stats column matches the trail-map card height */
+@media (min-width: 1101px) {
+  .xp-top { align-items: stretch !important; }
+  .xp-top .cs-stats { grid-template-rows: repeat(4, minmax(0, 1fr)) !important; gap: 10px !important; height: 100%; }
+  .xp-top .cs-stat { padding: 10px 14px 10px !important; gap: 2px !important; min-height: 0; }
+  .xp-top .cs-ring { width: 30px !important; height: 30px !important; right: 10px; top: 10px; font-size: 12px !important; border-radius: 10px; }
+  .xp-top .cs-txt b { font-size: 32px !important; }
+  .xp-top .cs-txt small { font-size: 9.5px !important; }
+  .xp-top .cs-stat::before { height: 30px; }
+  .xp-top .cs-meter { height: 4px; }
+}
