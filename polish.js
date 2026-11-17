@@ -120,3 +120,13 @@
   });
   c.addEventListener("pointerleave", function () { c.classList.remove("tilting"); c.style.setProperty("--rx", "0deg"); c.style.setProperty("--ry", "0deg"); });
 })();
+
+/* Mobile trail map: copy each milestone's year + title onto its camp */
+(function () {
+  var chips = document.querySelectorAll(".sc-chip");
+  Array.prototype.forEach.call(document.querySelectorAll(".sc-camp"), function (c) {
+    var ch = chips[+c.getAttribute("data-k")]; if (!ch) return;
+    var y = ch.querySelector(".sc-chip-txt small"), t = ch.querySelector(".sc-chip-txt b");
+    c.setAttribute("data-yr", y ? y.textContent : ""); c.setAttribute("data-lab", t ? t.textContent : "");
+  });
+})();

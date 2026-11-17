@@ -152,3 +152,13 @@
 .m-row-hint { display: flex; justify-content: center; gap: 6px; margin: -4px 0 10px; }
 .m-row-hint i { width: 6px; height: 6px; border-radius: 50%; background: color-mix(in srgb, var(--ink) 25%, transparent); transition: width .25s, background .25s; }
 .m-row-hint i.on { width: 18px; border-radius: 6px; background: var(--green); }
+
+/* trail map: milestone list hidden; each camp carries its own small label on the map */
+.sc-strip, .sc-strip + .m-row-hint { display: none !important; }
+.sc-camp::after { content: attr(data-yr) "\A" attr(data-lab); white-space: pre; position: absolute; left: 50%; top: calc(100% + 4px); transform: translateX(-50%);
+  padding: 2px 6px; border-radius: 6px; font: 700 8.5px/1.25 var(--f-body); text-align: center; color: var(--ink); background: color-mix(in srgb, var(--card) 88%, transparent);
+  box-shadow: 0 2px 6px -3px rgba(0,0,0,.4); pointer-events: none; opacity: 0; transition: opacity .4s; }
+.sc-camp:nth-child(even)::after { top: auto; bottom: calc(100% + 4px); }
+.sc-camp.reached::after { opacity: 1; }
+.sc-camp.is-cur::after { background: var(--green-d); color: #fff; }
+.sc-camp.top::after { display: none; }
