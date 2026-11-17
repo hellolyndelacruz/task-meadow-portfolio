@@ -118,44 +118,70 @@
     });
     // double-click / Enter on a chip jumps to the full role on the trail below
     chips.forEach(function (c) {
-      c.addEventListener("dblclick", function () { var t = $(c.getAttribute("data-target")); if (t) window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - window.innerHeight * .25, behavior: "smooth" }); });
+      c.addEventListener("dblclick", function () { var t = $(c.getAttribute("data-target")); if (t) if (window.__tlOpen) window.__tlOpen(t.id); window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - window.innerHeight * .25, behavior: "smooth" }); });
     });
     var link = document.createElement("a");
     link.className = "sc-more"; link.href = "#xp-nanox"; link.innerHTML = 'See the full role <i class="fa-solid fa-arrow-down"></i>';
     panel.appendChild(link);
     link.addEventListener("click", function (e) {
       var d = data[shown] || {}, t = $(d.target); if (!t) return; e.preventDefault();
-      window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - window.innerHeight * .25, behavior: "smooth" });
+      if (window.__tlOpen) window.__tlOpen(t.id); window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - window.innerHeight * .25, behavior: "smooth" });
     });
   })();
 
 
-  // 4. Trail: stops and signs animate in; rope fills with scroll; active stop syncs with its flag
-  var trail = $("xpTrail");
-  if (trail) {
-    onView($$(".xp-stop, .xp-sign", trail), function (el) { el.classList.add("in"); }, { threshold: .18, rootMargin: "0px 0px -80px 0px" });
-    var rope = trail.querySelector(".xp-rope"), stops = $$(".xp-stop, .xp-summit", trail), ticking = false;
-    var flagFor = {};
-    $$(".sc-chip").forEach(function (f) { flagFor[f.getAttribute("data-target")] = f; });
-    var update = function () {
+  // 4. Trail: reveal, expandable role cards, spine progress, spotlight, and sync with the trail map
+  (function () {
+    var tl = $("xpTrail");
+    if (!tl) return;
+    var roles = $$(".tl-role", tl), groups = $$(".tl-group", tl), cos = $$(".tl-co-card", tl);
+    onView(roles.concat(cos), function (el) { el.classList.add("in"); }, { threshold: .15, rootMargin: "0px 0px -60px 0px" });
+
+    function setOpen(r, open) {
+      r.classList.toggle("is-open", open);
+      var b = r.querySelector(".tl-head"); if (b) b.setAttribute("aria-expanded", open ? "true" : "false");
+    }
+    roles.forEach(function (r) {
+      var b = r.querySelector(".tl-head");
+      b.addEventListener("click", function () { setOpen(r, !r.classList.contains("is-open")); });
+    });
+    window.__tlOpen = function (id) { var r = $(id); if (r && r.classList.contains("tl-role")) setOpen(r, true); };
+
+    // spotlight that follows the pointer
+    if (finePointer) $$(".tl-card, .tl-co-card", tl).forEach(function (c) {
+      c.addEventListener("pointermove", function (e) {
+        var b = c.getBoundingClientRect();
+        c.style.setProperty("--mx", (e.clientX - b.left).toFixed(0) + "px");
+        c.style.setProperty("--my", (e.clientY - b.top).toFixed(0) + "px");
+      });
+    });
+
+    // spine fill per company + the role nearest the reading line lights up (and its chip on the map)
+    var chipFor = {};
+    $$(".sc-chip").forEach(function (f) { chipFor[f.getAttribute("data-target")] = f; });
+    var watch = roles.concat([$("xp-summit")]).filter(Boolean), ticking = false;
+    function update() {
       ticking = false;
-      var r = rope.getBoundingClientRect(), mid = window.innerHeight * .55;
-      var p = Math.max(0, Math.min(1, (mid - r.top) / r.height));
-      rope.style.setProperty("--p", p.toFixed(4));
+      var mid = window.innerHeight * .5;
+      groups.forEach(function (g) {
+        var sp = g.querySelector(".tl-spine"); if (!sp) return;
+        var r = sp.getBoundingClientRect();
+        sp.style.setProperty("--p", Math.max(0, Math.min(1, (mid - r.top) / Math.max(1, r.height))).toFixed(4));
+      });
       var best = null, bd = 1e9;
-      stops.forEach(function (s) {
-        var b = s.getBoundingClientRect(), c = b.top + Math.min(b.height, 160) / 2, d = Math.abs(c - mid);
+      watch.forEach(function (s) {
+        var b = s.getBoundingClientRect(), c = b.top + Math.min(b.height, 140) / 2, d = Math.abs(c - mid);
         if (b.bottom > 0 && b.top < window.innerHeight && d < bd) { bd = d; best = s; }
       });
-      stops.forEach(function (s) {
-        var on = s === best; s.classList.toggle("on", on);
-        var f = flagFor[s.id]; if (f) f.classList.toggle("on", on);
+      watch.forEach(function (s) {
+        var on = s === best; s.classList.toggle("is-active", on);
+        var f = chipFor[s.id]; if (f) f.classList.toggle("on", on);
       });
-    };
+    }
     window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
     window.addEventListener("resize", update);
     update();
-  }
+  })();
 
   // 5. Ridges drift with scroll (parallax)
   var ridges = $$(".xp-ridges svg"), xp = $("experience");
@@ -173,20 +199,8 @@
     drift();
   }
 
-  // 6. Tilt + glare on experience cards
+  // 6. Pointer-only niceties
   if (finePointer) {
-    $$(".xp-card").forEach(function (c) {
-      c.addEventListener("pointermove", function (e) {
-        var b = c.getBoundingClientRect(), x = (e.clientX - b.left) / b.width, y = (e.clientY - b.top) / b.height;
-        c.style.setProperty("--ry", ((x - .5) * 7).toFixed(2) + "deg");
-        c.style.setProperty("--rx", ((.5 - y) * 6).toFixed(2) + "deg");
-        c.style.setProperty("--gx", (x * 100).toFixed(1) + "%");
-        c.style.setProperty("--gy", (y * 100).toFixed(1) + "%");
-        c.classList.add("tilting");
-      });
-      c.addEventListener("pointerleave", function () { c.classList.remove("tilting"); });
-    });
-
     // 7. Magnetic buttons
     $$(".btn, .links .nav-cta, .meet").forEach(function (b) {
       b.addEventListener("pointermove", function (e) {

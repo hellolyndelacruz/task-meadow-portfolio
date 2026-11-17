@@ -121,10 +121,6 @@
 :is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .btn-red { background: var(--t-1d); box-shadow: 0 10px 22px -10px color-mix(in srgb, var(--t-1dd) 80%, transparent); }
 :is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .btn-red:hover { background: var(--t-1dd); }
 :is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .stop b { background: var(--t-1dd); color: var(--sign); }
-:is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .xp-hiker,
-:is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .xp-rope-fill::after { background: var(--t-accent); }
-:is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .xp-summit { background: var(--night); }
-:is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .xp-summit h3 .script { color: var(--t-accent-l); }
 :is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .home-btn { background: linear-gradient(160deg, color-mix(in srgb, var(--t-1) 75%, #fff), var(--t-1) 55%, var(--t-1d)); }
 :is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .alti-scale::after { background: linear-gradient(0deg, var(--t-1), var(--t-accent)); }
 :is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .theme-btn { background: var(--t-chip); }
