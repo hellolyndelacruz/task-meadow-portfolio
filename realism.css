@@ -1,0 +1,81 @@
+/* =====================================================================
+   The Task Meadow · folding brochure + desk scene realism
+   ===================================================================== */
+
+/* ---------- 1. accordion brochure (desktop) ---------- */
+.svx.fld .svx-list { display: block; perspective: 2400px; perspective-origin: 50% 40%; padding: 14px 6px 26px; position: relative; }
+.fld-root { position: relative; width: 25%; transform-style: preserve-3d;
+  transform: translateX(150%) rotateX(4deg); transition: transform 1.5s cubic-bezier(.6,.05,.25,1); }
+.fld-hinge { position: absolute; left: 100%; top: 0; width: 100%; height: 100%; transform-style: preserve-3d; transform-origin: 0 50%;
+  transition: transform 1.5s cubic-bezier(.6,.05,.25,1); }
+/* folded: zig-zag stack (behind, forward, behind) */
+.fld-h1 { transform: rotateY(178deg); }
+.fld-h2 { transform: rotateY(-178deg); transition-delay: .12s; }
+.fld-h3 { transform: rotateY(178deg); transition-delay: .24s; }
+/* open: lying almost flat with a gentle zig-zag, like a brochure on a table */
+.svx.fld-open .fld-root { transform: translateX(0) rotateX(4deg); }
+.svx.fld-open .fld-h1 { transform: rotateY(5deg); }
+.svx.fld-open .fld-h2 { transform: rotateY(-10deg); }
+.svx.fld-open .fld-h3 { transform: rotateY(10deg); }
+
+.svx.fld .svx-row { position: absolute !important; inset: 0; height: 100%; opacity: 1 !important; transform: none !important;
+  backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 0 !important; box-shadow: none !important; }
+.svx.fld .fld-p0 { border-radius: 14px 0 0 14px !important; }
+.svx.fld .fld-p3 { border-radius: 0 14px 14px 0 !important; }
+/* crease shading alternates with the zig-zag */
+.svx.fld .svx-row::before { background: linear-gradient(90deg, rgba(0,0,0,.05), transparent 18%, transparent 82%, rgba(0,0,0,.07)) !important; }
+.svx.fld .fld-p1::before, .svx.fld .fld-p3::before { background: linear-gradient(90deg, rgba(0,0,0,.12), transparent 22%, transparent 80%, rgba(255,255,255,.25)) !important; }
+.svx.fld .fld-p2::before { background: linear-gradient(90deg, rgba(255,255,255,.3), transparent 22%, transparent 80%, rgba(0,0,0,.1)) !important; }
+/* back side of each panel: plain paper with faint print showing through */
+.fld-back { position: absolute; inset: 0; transform: rotateY(180deg); backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  background: radial-gradient(color-mix(in srgb, var(--ink) 4%, transparent) 1px, transparent 1px) 0 0 / 6px 6px,
+              linear-gradient(90deg, rgba(0,0,0,.08), transparent 30%, transparent 70%, rgba(0,0,0,.06)), var(--paper); }
+.fld-h3 > .fld-back { border-radius: 14px 0 0 14px; }
+/* darkness on panels while folded, fading as they open */
+.fld-shade { position: absolute; inset: 0; z-index: 7; pointer-events: none; background: linear-gradient(90deg, rgba(20,15,5,.35), rgba(20,15,5,.12)); opacity: 1; transition: opacity 1.3s cubic-bezier(.6,.05,.25,1); }
+.fld-p0 .fld-shade { opacity: 0; }
+.svx.fld-open .fld-shade { opacity: 0; }
+.fld-p1 .fld-shade, .fld-p2 .fld-shade { transition-delay: .12s; } .fld-p3 .fld-shade { transition-delay: .24s; }
+/* soft shadow on the table that widens as the brochure opens */
+.svx.fld .svx-list::after { content: ""; position: absolute; left: 4%; right: 4%; bottom: 4px; height: 26px; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(40,50,30,.32), transparent); transform: scaleX(.26); transform-origin: 50% 50%; transition: transform 1.5s cubic-bezier(.6,.05,.25,1); }
+.svx.fld-open .svx-list::after { transform: none; }
+/* checklist items wait for the unfold */
+.svx.fld .svx-tags li { opacity: 0 !important; translate: -8px 0 !important; }
+.svx.fld-open .svx-tags li { opacity: 1 !important; translate: none !important; transition-delay: calc(1.3s + var(--i) * .1s) !important; }
+.svx.fld-open .svx-row:hover { translate: 0 -8px; }
+
+/* ---------- 2. desk scene: no window, bigger monitor ---------- */
+.setup .st-window { display: none !important; }
+.setup .monitor { width: min(820px, 100%) !important; }
+.setup .vase { left: 0 !important; top: calc(62% - 60px) !important; width: 92px !important; height: 164px !important; }
+.setup .mug { right: 1% !important; top: calc(62% + 10px) !important; width: 104px !important; height: 104px !important; }
+
+/* ---------- 3. keyboard: cream & sage 75% mechanical, aluminium case, metal knob ---------- */
+.setup { --kb-key1: #f7f4ec; --kb-key2: #e6e1d4; --kb-navy1: #a9bca6; --kb-navy2: #8ea68c; --kb-red1: #5f8a6a; --kb-red2: #4a7356; --kb-case1: #d5e0d1; --kb-case2: #a8b9a4; }
+.setup .mk { border-radius: 16px !important;
+  background: linear-gradient(180deg, rgba(255,255,255,.55), transparent 18%),
+              repeating-linear-gradient(90deg, rgba(255,255,255,.06) 0 1px, transparent 1px 3px),
+              linear-gradient(170deg, #e4ece1, var(--kb-case1) 35%, var(--kb-case2)) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.9), inset 0 -2px 0 rgba(0,0,0,.08),
+              0 3px 0 #9aad96, 0 6px 0 #8a9e86, 0 9px 0 #7a8e76, 0 10px 1px rgba(0,0,0,.2), 0 26px 32px -14px rgba(30,40,25,.55) !important; }
+.setup .mk::after { background: rgba(255,255,255,.7) !important; }
+/* cream alphas */
+.setup .mk .key { color: #4a4f45 !important; --skirt1: #d8d2c3; --skirt2: #c4bdac; }
+.setup .mk .key::before { background: radial-gradient(ellipse 85% 70% at 50% 30%, rgba(255,255,255,.9), transparent 70%), linear-gradient(180deg, var(--kb-key1), var(--kb-key2)) !important;
+  box-shadow: inset 0 -2px 2px rgba(0,0,0,.07), inset 0 1px 1px rgba(255,255,255,.95) !important; }
+/* sage modifiers */
+.setup .mk .key.mod, .setup .mk .key.deep { color: #ffffff !important; --skirt1: #7f957c; --skirt2: #6b8168; background: linear-gradient(180deg, var(--skirt1), var(--skirt2)) !important; box-shadow: 0 1px 0 #5f745c, 0 3px 0 #50634d, 0 5px 6px rgba(30,40,25,.3) !important; }
+.setup .mk .key.mod::before, .setup .mk .key.deep::before { background: radial-gradient(ellipse 85% 70% at 50% 30%, rgba(255,255,255,.3), transparent 70%), linear-gradient(180deg, #b3c4af, #96ad93) !important; }
+/* deep-green accents (esc / enter) */
+.setup .mk .key.white:not(.space) { color: #eef5ec !important; --skirt1: #3f6249; --skirt2: #32503b; background: linear-gradient(180deg, var(--skirt1), var(--skirt2)) !important; box-shadow: 0 1px 0 #2a4432, 0 3px 0 #213628, 0 5px 6px rgba(20,30,20,.35) !important; }
+.setup .mk .key.white:not(.space)::before { background: radial-gradient(ellipse 85% 70% at 50% 30%, rgba(255,255,255,.22), transparent 70%), linear-gradient(180deg, #6a937a, #4f7a5f) !important; }
+/* space bar: long cream key */
+.setup .mk .key.space { color: transparent !important; }
+/* brushed-metal knob */
+.setup .knob { background: radial-gradient(circle at 50% 50%, transparent 52%, rgba(0,0,0,.08) 53%, transparent 56%),
+                         conic-gradient(from 20deg, #dfe6dc, #ffffff, #a9b6a6, #f2f6f0, #b9c5b6, #ffffff, #dfe6dc) !important;
+  box-shadow: 0 2px 0 #7f917b, 0 4px 6px rgba(0,0,0,.25), inset 0 0 0 2px rgba(255,255,255,.6) !important; }
+/* typing pulse stays readable on cream keys */
+.setup .mk .key.down::before { filter: brightness(.93); }
+.setup::after { display: none !important; }
