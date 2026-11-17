@@ -114,3 +114,58 @@
   .pg-btn { padding: 9px 12px; }
   .paged .tl-role.pg-leave { transform-origin: 0 50%; }
 }
+
+/* =====================================================================
+   Realistic page turn: a two-sided sheet hinged at the spine
+   ===================================================================== */
+.tl-roles.paged { transform-style: preserve-3d; }
+.pg-sheet { position: absolute; z-index: 6; transform-origin: -34px 50%; transform-style: preserve-3d; pointer-events: none; will-change: transform; }
+.pg-sheet > * { position: absolute !important; inset: 0; margin: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.pg-sheet .pg-front { opacity: 1 !important; transform: none !important; overflow: hidden; }
+.pg-sheet .pg-front .tl-list li { opacity: 1 !important; transform: none !important; }
+.pg-sheet .pg-front .tl-span i { transform: none !important; }
+/* back of the sheet: blank paper with the print faintly showing through */
+.pg-back { transform: rotateY(180deg); border-radius: 20px; border: 1px solid var(--line);
+  background: linear-gradient(270deg, rgba(0,0,0,.10), transparent 30%), var(--paper); box-shadow: 0 24px 40px -20px rgba(0,0,0,.35); padding: 26px 28px; }
+.pg-back i { display: block; height: 9px; margin: 0 0 16px auto; border-radius: 5px; background: color-mix(in srgb, var(--ink) 7%, transparent); }
+.pg-back i:nth-child(1) { width: 40%; height: 11px; } .pg-back i:nth-child(2) { width: 82%; height: 18px; margin-bottom: 26px; }
+.pg-back i:nth-child(3) { width: 92%; } .pg-back i:nth-child(4) { width: 88%; } .pg-back i:nth-child(5) { width: 70%; } .pg-back i:nth-child(6) { width: 50%; }
+/* light & shade across the front as it tilts away */
+.pg-shade { position: absolute; inset: 0; z-index: 9; border-radius: inherit; pointer-events: none; opacity: 0;
+  background: linear-gradient(90deg, rgba(0,0,0,.05), rgba(255,255,255,.18) 30%, rgba(0,0,0,.28) 85%, rgba(0,0,0,.4)); }
+
+.pg-sheet.out { animation: pgOut 1s cubic-bezier(.45,.05,.3,1) forwards; }
+.pg-sheet.out .pg-shade { animation: pgShadeOut 1s cubic-bezier(.45,.05,.3,1) forwards; }
+.pg-sheet.in { animation: pgIn 1s cubic-bezier(.45,.05,.3,1) forwards; }
+.pg-sheet.in .pg-shade { animation: pgShadeIn 1s cubic-bezier(.45,.05,.3,1) forwards; }
+@keyframes pgOut {
+  0%   { transform: perspective(2200px) rotateY(0) translateZ(0); }
+  12%  { transform: perspective(2200px) rotateY(-8deg) translateZ(18px) rotateZ(-.6deg); }
+  45%  { transform: perspective(2200px) rotateY(-80deg) translateZ(46px) rotateZ(-1.6deg) skewY(-1.2deg); }
+  80%  { transform: perspective(2200px) rotateY(-155deg) translateZ(20px) rotateZ(-.4deg); }
+  100% { transform: perspective(2200px) rotateY(-178deg) translateZ(0); } }
+@keyframes pgIn {
+  0%   { transform: perspective(2200px) rotateY(-178deg) translateZ(0); }
+  20%  { transform: perspective(2200px) rotateY(-155deg) translateZ(20px) rotateZ(-.4deg); }
+  55%  { transform: perspective(2200px) rotateY(-80deg) translateZ(46px) rotateZ(-1.6deg) skewY(-1.2deg); }
+  88%  { transform: perspective(2200px) rotateY(-8deg) translateZ(18px) rotateZ(-.6deg); }
+  100% { transform: perspective(2200px) rotateY(0) translateZ(0); } }
+@keyframes pgShadeOut { 0% { opacity: 0; } 45% { opacity: .9; } 100% { opacity: 1; } }
+@keyframes pgShadeIn { 0% { opacity: 1; } 55% { opacity: .9; } 100% { opacity: 0; } }
+
+/* the page underneath: a soft shadow from the lifting sheet sweeps across it */
+.paged .tl-role.pg-under .tl-card::after { content: ""; display: block; position: absolute; inset: 0; z-index: 5; transform: none; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(90deg, rgba(0,0,0,.28), rgba(0,0,0,.1) 35%, transparent 70%); opacity: 0; animation: pgCast 1s cubic-bezier(.45,.05,.3,1) forwards; }
+.paged .tl-role.pg-under.back .tl-card::after { animation-name: pgCastBack; }
+@keyframes pgCast { 0% { opacity: .9; } 50% { opacity: .55; } 100% { opacity: 0; } }
+@keyframes pgCastBack { 0% { opacity: 0; } 55% { opacity: .5; } 100% { opacity: .85; } }
+.paged .tl-role.pg-under .tl-list li { transition-delay: 0s !important; }
+
+@media (max-width: 640px) { .pg-sheet { transform-origin: -8px 50%; } }
+
+/* fade the paper back (not the sheet: opacity on the sheet would flatten the 3D and show mirrored print) */
+.pg-sheet.out .pg-back { animation: pgBackOut 1s cubic-bezier(.45,.05,.3,1) forwards; }
+.pg-sheet.in .pg-back { animation: pgBackIn 1s cubic-bezier(.45,.05,.3,1) forwards; }
+@keyframes pgBackOut { 0%, 78% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes pgBackIn { 0% { opacity: 0; } 22%, 100% { opacity: 1; } }
+.pg-sheet .pg-front { contain: none !important; }

@@ -26,7 +26,7 @@
   groups.forEach(function (g) {
     var box = g.querySelector(".tl-roles"); if (!box) return;
     var pages = Array.prototype.slice.call(box.querySelectorAll(".tl-role")).reverse();   // oldest role first, like reading forward in time
-    pages.forEach(openRole);                         // each role has its own page, so show its highlights
+    pages.forEach(function (p) { openRole(p); p.classList.add("in"); });   // each role has its own page; hidden pages never get the scroll reveal, so mark them shown
     if (pages.length < 2) return;
 
     box.classList.add("paged");
@@ -59,28 +59,59 @@
       prevB.disabled = cur === 0; nextB.disabled = cur === n - 1;
     }
 
+    // A real sheet turns: front = the page's content, back = blank paper with the print showing through.
+    // Forward: the current page lifts off its spine and turns to the left, revealing the next page underneath.
+    // Backward: the previous page comes back from the left and lays down over the current one.
+    function sheetFor(card, rect) {
+      var s = document.createElement("div");
+      s.className = "pg-sheet"; s.setAttribute("aria-hidden", "true");
+      s.style.left = rect.left + "px"; s.style.top = rect.top + "px"; s.style.width = rect.width + "px"; s.style.height = rect.height + "px";
+      var front = card.cloneNode(true);
+      front.classList.add("pg-front");
+      Array.prototype.forEach.call(front.querySelectorAll("[id]"), function (e) { e.removeAttribute("id"); });
+      front.removeAttribute("id");
+      var backFace = document.createElement("div"); backFace.className = "pg-back";
+      backFace.innerHTML = "<i></i><i></i><i></i><i></i><i></i><i></i>";
+      var shade = document.createElement("span"); shade.className = "pg-shade";
+      front.appendChild(shade);
+      s.appendChild(front); s.appendChild(backFace);
+      return s;
+    }
+    function rectOf(role) {   // card position inside the box
+      var c = role.querySelector(".tl-card");
+      return { left: role.offsetLeft + c.offsetLeft, top: role.offsetTop + c.offsetTop, width: c.offsetWidth, height: c.offsetHeight };
+    }
+    var DUR = 1000;
     function go(to, instant) {
       if (to === cur || to < 0 || to >= n || busy) return;
       var back = to < cur, old = pages[cur], nu = pages[to];
       if (instant) { cur = to; paint(); return; }
       busy = true;
       var h0 = box.offsetHeight;
-      // lift the old page out of the flow so it can turn over the new one
-      var top = old.offsetTop, left = old.offsetLeft, w = old.offsetWidth;
-      old.classList.add("pg-leave"); if (back) old.classList.add("back");
-      old.style.top = top + "px"; old.style.left = left + "px"; old.style.width = w + "px";
-      cur = to; paint();
-      nu.classList.add("pg-enter"); if (back) nu.classList.add("back");
+      var turning = back ? nu : old;          // the page that is the moving sheet
+      var under = back ? old : nu;            // the page that stays flat underneath
+      // measure the turning page where it sits
+      if (back) { cur = to; paint(); }        // show the new (previous) page briefly to measure it
+      var r = rectOf(turning);
+      var sheet = sheetFor(turning.querySelector(".tl-card"), r);
+      // show the page underneath, hide the turning one (the sheet stands in for it)
+      pages.forEach(function (p) { p.classList.toggle("pg-cur", p === under); });
+      if (!back) { cur = to; paint(); pages.forEach(function (p) { p.classList.toggle("pg-cur", p === under); }); }
       var h1 = box.offsetHeight;
+      under.classList.add("pg-under"); if (back) under.classList.add("back");
+      box.appendChild(sheet);
+      sheet.classList.add(back ? "in" : "out");
       box.style.height = h0 + "px"; void box.offsetHeight;
-      box.style.height = h1 + "px";
+      box.style.height = Math.max(h1, back ? r.top + r.height + 90 : h1) + "px";
       setTimeout(function () {
-        old.classList.remove("pg-leave", "back"); old.style.top = old.style.left = old.style.width = "";
-        nu.classList.remove("pg-enter", "back");
+        sheet.remove();
+        under.classList.remove("pg-under", "back");
+        paint();                              // the page we turned to is now the flat, current page
         box.style.height = "";
         busy = false;
-        window.dispatchEvent(new Event("scroll"));   // let the timeline / map highlight the new page
-      }, 760);
+        if (window.__tmRemeasure) window.__tmRemeasure();
+        window.dispatchEvent(new Event("scroll"));
+      }, DUR + 30);
     }
 
     nav.addEventListener("click", function (e) {

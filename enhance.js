@@ -160,36 +160,48 @@
     var chipFor = {};
     $$(".sc-chip").forEach(function (f) { chipFor[f.getAttribute("data-target")] = f; });
     var watch = roles.concat([$("xp-summit")]).filter(Boolean), ticking = false;
+    var spines = groups.map(function (g) { return g.querySelector(".tl-spine"); }).filter(Boolean);
+    // positions are measured once (and again when layout changes), never during scroll
+    var spineBox = [], watchBox = [], lastP = [], lastBest = null;
+    function measure() {
+      var y = window.pageYOffset;
+      spineBox = spines.map(function (sp) { var r = sp.getBoundingClientRect(); return { top: r.top + y, h: Math.max(1, r.height) }; });
+      watchBox = watch.map(function (s) { var r = s.getBoundingClientRect(); return { top: r.top + y, h: r.height, vis: r.width > 0 }; });
+    }
     function update() {
       ticking = false;
-      var mid = window.innerHeight * .5;
-      groups.forEach(function (g) {
-        var sp = g.querySelector(".tl-spine"); if (!sp) return;
-        var r = sp.getBoundingClientRect();
-        sp.style.setProperty("--p", Math.max(0, Math.min(1, (mid - r.top) / Math.max(1, r.height))).toFixed(4));
+      var y = window.pageYOffset, vh = window.innerHeight, mid = y + vh * .5;
+      spineBox.forEach(function (b, i) {
+        var p = Math.max(0, Math.min(1, (mid - b.top) / b.h)).toFixed(3);
+        if (p !== lastP[i]) { lastP[i] = p; spines[i].style.setProperty("--p", p); }
       });
       var best = null, bd = 1e9;
-      watch.forEach(function (s) {
-        var b = s.getBoundingClientRect(), c = b.top + Math.min(b.height, 140) / 2, d = Math.abs(c - mid);
-        if (b.bottom > 0 && b.top < window.innerHeight && d < bd) { bd = d; best = s; }
+      watchBox.forEach(function (b, i) {
+        if (!b.vis || b.top + b.h < y || b.top > y + vh) return;
+        var d = Math.abs(b.top + Math.min(b.h, 140) / 2 - mid);
+        if (d < bd) { bd = d; best = watch[i]; }
       });
+      if (best === lastBest) return;
+      lastBest = best;
       watch.forEach(function (s) {
         var on = s === best; s.classList.toggle("is-active", on);
         var f = chipFor[s.id]; if (f) f.classList.toggle("on", on);
       });
     }
+    window.__tmMeasure = (window.__tmMeasure || []).concat(function () { measure(); update(); });
     window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
-    window.addEventListener("resize", update);
-    update();
+    measure(); update();
   })();
 
   // 5. Ridges drift with scroll (parallax)
   var ridges = $$(".xp-ridges svg"), xp = $("experience");
   if (ridges.length && xp) {
-    var rt = false;
+    var rt = false, xpTop = 0;
+    window.__tmMeasure = (window.__tmMeasure || []).concat(function () { xpTop = xp.getBoundingClientRect().top + window.pageYOffset; drift(); });
+    xpTop = xp.getBoundingClientRect().top + window.pageYOffset;
     var drift = function () {
       rt = false;
-      var top = xp.getBoundingClientRect().top;
+      var top = xpTop - window.pageYOffset;
       if (top > window.innerHeight || top < -400) return;
       var k = (window.innerHeight - top) / window.innerHeight;
       ridges[0].style.transform = "translateY(" + (k * 26).toFixed(1) + "px)";
@@ -223,19 +235,45 @@
       secs.map(function (s) { return '<a href="#' + s.id + '" aria-label="' + names[s.id] + '"><span>' + names[s.id] + "</span></a>"; }).join("") + "</div>";
     document.body.appendChild(box);
     var m = $("altiM"), nm = $("altiN"), scale = $("altiScale"), dots = $$("a", scale), at = false, TOP = 4478;
+    var max = 1, tops = [], vh = window.innerHeight, lastM = "", lastAp = "", lastCur = -1, lastShow = null;
+    function measure() {
+      var y = window.pageYOffset; vh = window.innerHeight;
+      max = Math.max(1, document.documentElement.scrollHeight - vh);
+      tops = secs.map(function (s) { return s.getBoundingClientRect().top + y; });
+    }
     var tick = function () {
       at = false;
-      var max = document.documentElement.scrollHeight - window.innerHeight, y = window.pageYOffset, p = max > 0 ? Math.min(1, y / max) : 0;
-      m.textContent = Math.round(p * TOP).toLocaleString("en-US") + " m";
-      scale.style.setProperty("--ap", p.toFixed(4));
+      var y = window.pageYOffset, p = Math.min(1, y / max);
+      var mt = Math.round(p * TOP).toLocaleString("en-US") + " m";
+      if (mt !== lastM) { lastM = mt; m.textContent = mt; }
+      var ap = p.toFixed(3);
+      if (ap !== lastAp) { lastAp = ap; scale.style.setProperty("--ap", ap); }
       var cur = 0;
-      secs.forEach(function (s, i) { if (s.getBoundingClientRect().top < window.innerHeight * .45) cur = i; });
-      nm.textContent = names[secs[cur].id];
-      dots.forEach(function (d, i) { d.classList.toggle("is-cur", i === cur); d.classList.toggle("past", i < cur); });
-      box.classList.toggle("show", y > window.innerHeight * .5);
+      for (var i = 0; i < tops.length; i++) if (tops[i] - y < vh * .45) cur = i;
+      if (cur !== lastCur) {
+        lastCur = cur; nm.textContent = names[secs[cur].id];
+        dots.forEach(function (d, i) { d.classList.toggle("is-cur", i === cur); d.classList.toggle("past", i < cur); });
+      }
+      var show = y > vh * .5;
+      if (show !== lastShow) { lastShow = show; box.classList.toggle("show", show); }
     };
+    window.__tmMeasure = (window.__tmMeasure || []).concat(function () { measure(); tick(); });
     window.addEventListener("scroll", function () { if (!at) { at = true; requestAnimationFrame(tick); } }, { passive: true });
-    window.addEventListener("resize", tick);
-    tick();
+    measure(); tick();
+  })();
+
+  // 9. Re-measure only when the layout really changes (resize, fonts, images, pages turning, accordions)
+  (function () {
+    var q = false;
+    function run() { q = false; (window.__tmMeasure || []).forEach(function (f) { f(); }); }
+    function soon() { if (!q) { q = true; requestAnimationFrame(run); } }
+    window.addEventListener("resize", soon);
+    window.addEventListener("load", soon);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(soon);
+    if ("ResizeObserver" in window) {
+      var last = 0;
+      new ResizeObserver(function () { var h = document.documentElement.scrollHeight; if (h !== last) { last = h; soon(); } }).observe(document.body);
+    }
+    window.__tmRemeasure = soon;
   })();
 })();

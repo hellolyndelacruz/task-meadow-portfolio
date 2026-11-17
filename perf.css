@@ -1,0 +1,40 @@
+/* =====================================================================
+   The Task Meadow · performance overrides (loaded last)
+   Scroll-driven bars use transforms (no layout per frame); expensive
+   blur/drop-shadow filters on large or moving layers are replaced by
+   cheaper equivalents that look the same.
+   ===================================================================== */
+
+/* scroll-driven fills: scale instead of height */
+.tl-spine > i { height: 100%; transform: scaleY(var(--p, 0)); transform-origin: top; will-change: transform; }
+.alti-scale::after { height: calc(100% - 32px); transform: scaleY(var(--ap, 0)); transform-origin: bottom; transition: transform .2s; }
+
+/* fixed nav: frosted look without a live backdrop blur (that re-blurs the page under it every scroll frame) */
+.nav { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; background: color-mix(in srgb, var(--card) 94%, transparent) !important; }
+.sc-panel, .alti-scale { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+.alti-scale { background: var(--card) !important; }
+
+/* big animated blur in the services panel: same glow from a soft gradient, no filter */
+.svx-glow { filter: none !important; opacity: .55 !important;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--sv2) 45%, transparent), color-mix(in srgb, var(--sv1) 22%, transparent) 55%, transparent) !important; animation: none !important; }
+/* brochure: box-shadow per panel instead of a filter over the 3D group */
+.svx .svx-list { filter: none !important; }
+.svx .svx-row { box-shadow: 0 22px 30px -24px rgba(40, 50, 30, .35); }
+
+/* hero clouds: soft edges from gradients instead of blur filters */
+.clouds i { filter: none !important; background: radial-gradient(closest-side, rgba(255,255,255,.8), rgba(255,255,255,0)) !important; }
+
+/* things that animate forever get their own layer */
+.hero-photo, .sc-cloud, .smt-cloud, .ab-ring, .tl-co-ico::after { will-change: transform; }
+
+/* off-screen work: let the browser skip painting long sections until they are near */
+#certificates, #tools, #recommendations, #dream, #contact { content-visibility: auto; contain-intrinsic-size: auto 1000px; }
+
+/* remaining looping animations: composited versions */
+@keyframes cue { 0% { opacity: 0; transform: translate(-50%, -2px); } 40% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, 18px); } }
+@keyframes hikerBob { to { transform: translateY(-3px); } }
+.dream-card.in .trip-bar span { animation-duration: 2s; }
+.abx-path li.now .abx-dot { position: relative; }
+.abx.in .abx-path li.now .abx-dot { animation: none; }
+.abx-path li.now .abx-dot::after { content: ""; position: absolute; inset: -2px; border-radius: 14px; border: 2px solid var(--green); opacity: 0; }
+.abx.in .abx-path li.now .abx-dot::after { animation: tlRing 2s 2.4s ease-out infinite; }

@@ -102,3 +102,21 @@
     sync();
   });
 })();
+
+/* ID card: tilt + holographic sheen (pointer only, rAF-throttled) */
+(function () {
+  var c = document.querySelector(".ab-profile.idc");
+  if (!c || !window.matchMedia || !matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+  var raf = 0, x = 0, y = 0;
+  c.addEventListener("pointermove", function (e) {
+    x = e.clientX; y = e.clientY; if (raf) return;
+    raf = requestAnimationFrame(function () {
+      raf = 0; var b = c.getBoundingClientRect(), px = (x - b.left) / b.width, py = (y - b.top) / b.height;
+      c.style.setProperty("--ry", ((px - .5) * 10).toFixed(2) + "deg");
+      c.style.setProperty("--rx", ((.5 - py) * 8).toFixed(2) + "deg");
+      c.style.setProperty("--hx", (px * 100).toFixed(1) + "%");
+      c.classList.add("tilting");
+    });
+  });
+  c.addEventListener("pointerleave", function () { c.classList.remove("tilting"); c.style.setProperty("--rx", "0deg"); c.style.setProperty("--ry", "0deg"); });
+})();
