@@ -71,3 +71,34 @@
     secs.forEach(function (s) { io.observe(s); });
   }
 })();
+
+/* Mobile: keep only the current role open so the trail stays short */
+(function () {
+  if (!window.matchMedia || !matchMedia("(max-width: 760px)").matches) return;
+  Array.prototype.forEach.call(document.querySelectorAll(".tl-role.is-open:not(.is-now)"), function (r) {
+    r.classList.remove("is-open"); var b = r.querySelector(".tl-head"); if (b) b.setAttribute("aria-expanded", "false");
+  });
+})();
+
+/* Mobile: turn long stacks into swipe rows */
+(function () {
+  if (!window.matchMedia || !matchMedia("(max-width: 760px)").matches) return;
+  [".sv-grid", ".certs", ".tl-roles"].forEach(function (s) {
+    Array.prototype.forEach.call(document.querySelectorAll(s), function (el) { if (s !== ".tl-roles") el.classList.add("m-row"); });
+  });
+})();
+
+/* Mobile: dots under swipe rows */
+(function () {
+  if (!window.matchMedia || !matchMedia("(max-width: 760px)").matches) return;
+  Array.prototype.forEach.call(document.querySelectorAll(".m-row"), function (row) {
+    var n = row.children.length; if (n < 2) return;
+    var dots = document.createElement("div"); dots.className = "m-row-hint"; dots.setAttribute("aria-hidden", "true");
+    for (var i = 0; i < n; i++) dots.appendChild(document.createElement("i"));
+    row.parentNode.insertBefore(dots, row.nextSibling);
+    var d = dots.children, t = 0;
+    function sync() { t = 0; var w = row.children[0].getBoundingClientRect().width + 12, k = Math.min(n - 1, Math.round(row.scrollLeft / w)); for (var j = 0; j < n; j++) d[j].classList.toggle("on", j === k); }
+    row.addEventListener("scroll", function () { if (!t) t = requestAnimationFrame(sync); }, { passive: true });
+    sync();
+  });
+})();
