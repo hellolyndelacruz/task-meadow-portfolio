@@ -1,0 +1,61 @@
+/* =====================================================================
+   The Task Meadow · itinerary as hanging wooden trail signs
+   Planks with notched (swallowtail) ends, hung by ropes, widening downward.
+   They drop in one by one, swing to rest, then sway gently.
+   ===================================================================== */
+.ropeway { --wd1: #c08a55; --wd2: #9b6a3c; --wd3: #6e4724; --wd-ink: #fff7e8; }
+[data-theme="dark"] .ropeway { --wd1: #8f6438; --wd2: #6e4a28; --wd3: #45291a; }
+[data-theme="lakeside"] .ropeway { --wd1: #b89068; --wd2: #8e6c4c; --wd3: #5e4430; }
+
+/* hide the cable-car machinery */
+.ropeway .rw-cable, .ropeway .rw-station, .ropeway .cab-grip { display: none !important; }
+
+/* the hanging post at the top */
+.rw-track { height: auto !important; display: flex; flex-direction: column; align-items: center; gap: 22px; padding: 30px 0 6px; margin-top: 16px !important; }
+.rw-track::before { content: ""; position: absolute; left: 6%; right: 6%; top: 0; height: 12px; border-radius: 6px;
+  background: linear-gradient(180deg, #7a5230, #4e321b); box-shadow: 0 6px 12px -6px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.2); }
+
+/* each sign */
+.ropeway .cab { position: relative !important; left: auto !important; top: auto !important; height: 64px !important;
+  width: calc(66% + var(--i) * 6.8%) !important; max-width: 100%; transform-origin: 50% -22px; }
+/* two ropes from the sign above */
+.ropeway .cab::before, .ropeway .cab::after { content: ""; position: absolute; top: -24px; width: 3px; height: 26px; border-radius: 2px;
+  background: repeating-linear-gradient(180deg, #e6cf9a 0 4px, #b8975a 4px 7px); box-shadow: 0 1px 2px rgba(0,0,0,.35); }
+.ropeway .cab::before { left: 42%; } .ropeway .cab::after { right: 42%; }
+.ropeway .cab:first-of-type::before, .ropeway .cab:first-of-type::after { top: -30px; height: 32px; }
+
+/* the plank */
+.ropeway .cab-body { position: absolute; inset: 0; animation: none !important; }
+.ropeway .cab-box { top: 0 !important; inset: 0 !important; grid-template-columns: 50px 1fr 30px !important; padding: 0 30px !important; border-radius: 4px !important;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 22px) 50%, 100% 100%, 0 100%, 22px 50%);
+  background:
+    repeating-linear-gradient(178deg, transparent 0 7px, rgba(0,0,0,.06) 7px 8px, transparent 8px 15px, rgba(255,255,255,.05) 15px 16px),
+    radial-gradient(ellipse 30px 8px at 68% 40%, rgba(60,30,10,.25), transparent 70%),
+    linear-gradient(180deg, var(--wd1), var(--wd2) 60%, var(--wd3)) !important;
+  box-shadow: inset 0 2px 0 rgba(255,255,255,.22), inset 0 -3px 0 rgba(0,0,0,.25) !important;
+  transition: filter .3s; }
+/* nail heads where the ropes meet */
+.ropeway .cab-box::before { content: ""; position: absolute; left: calc(42% - 2px); right: calc(42% - 2px); top: 5px; height: 7px; border: 0; border-radius: 0;
+  background: radial-gradient(circle at 3.5px 3.5px, #e9e2d2 0 2px, #5a5246 2.5px, transparent 3.5px) left / 7px 7px no-repeat,
+              radial-gradient(circle at 3.5px 3.5px, #e9e2d2 0 2px, #5a5246 2.5px, transparent 3.5px) right / 7px 7px no-repeat; }
+/* drop shadow below the plank (separate so the clip-path doesn't cut it) */
+.ropeway .cab-body::after { content: ""; position: absolute; left: 6%; right: 6%; bottom: -10px; height: 14px; border-radius: 50%; background: rgba(0,0,0,.35); filter: blur(6px); z-index: -1; }
+
+/* text burned into the wood */
+.ropeway .cab-time { color: var(--wd-ink) !important; font-size: 14px !important; text-shadow: 0 1px 0 rgba(0,0,0,.35); }
+.ropeway .cab-win { background: rgba(40,22,8,.32) !important; box-shadow: inset 0 1px 2px rgba(0,0,0,.35), 0 1px 0 rgba(255,255,255,.12) !important; border-radius: 6px !important; }
+.ropeway .cab-win b { color: var(--wd-ink); } .ropeway .cab-win b i { color: #f3dc94 !important; }
+.ropeway .cab-win small { color: rgba(255,247,232,.72) !important; }
+.ropeway .cab-stop { background: #f3dc94 !important; color: #5a3a1a !important; box-shadow: inset 0 -2px 0 rgba(0,0,0,.2); }
+
+/* entrance: each sign drops on its ropes and swings to rest, then sways */
+.ropeway .cab { opacity: 0; transform: translateY(-40px) rotate(0); }
+.ropeway.go .cab { animation: woodDrop .9s calc(var(--i) * .16s) cubic-bezier(.3,1.4,.5,1) forwards, woodSway 5s calc(.9s + var(--i) * .16s) ease-in-out infinite; }
+@keyframes woodDrop { 0% { opacity: 0; transform: translateY(-40px) rotate(-6deg); } 55% { opacity: 1; transform: translateY(4px) rotate(3deg); } 80% { transform: translateY(-1px) rotate(-1.2deg); } 100% { opacity: 1; transform: none; } }
+@keyframes woodSway { 0%, 100% { opacity: 1; transform: rotate(0); } 30% { transform: rotate(.9deg); } 70% { transform: rotate(-.9deg); } }
+.ropeway .cab:nth-of-type(even) { animation-direction: normal, reverse; }
+
+/* hover: the sign swings toward you */
+.ropeway .cab:hover .cab-box, .ropeway .cab:focus-visible .cab-box { transform: none !important; filter: brightness(1.08) saturate(1.1); }
+.ropeway .cab:hover { animation-play-state: running, paused; }
+.ropeway .cab:hover .cab-body { transform: translateY(-3px) scale(1.03); transition: transform .3s cubic-bezier(.2,.8,.2,1.4); }
