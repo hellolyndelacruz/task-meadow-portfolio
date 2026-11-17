@@ -194,3 +194,6 @@
 .strengths, .typer, .setup, .sc-stage, .tl-card, .sv, .ab-card { contain: layout paint; }
 .sc-stage { contain: paint; }
 .sc-chip-ico { margin-bottom: 4px; }
+
+/* mobile-only typing card (shown by mobile.css) */
+.m-typer { display: none; }
