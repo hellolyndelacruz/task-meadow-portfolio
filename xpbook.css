@@ -1,0 +1,64 @@
+/* =====================================================================
+   The Task Meadow · experience as 3D brochures
+   Company card = cover panel, roles = inside panel that unfolds
+   from behind the cover. (No CSS filter on the group: it would
+   flatten the 3D.)
+   ===================================================================== */
+.tl-group.xb { gap: 0; align-items: stretch; perspective: 2400px; perspective-origin: 30% 50%; margin-bottom: 64px; }
+
+/* cover panel */
+.xb .tl-co { position: relative; top: 0; z-index: 2; transform-origin: right center; transform-style: preserve-3d;
+  transform: rotateY(0deg); transition: transform 1.3s cubic-bezier(.6,.05,.25,1); }
+.xb.open .tl-co { transform: rotateY(4deg); }
+.xb .tl-co-card { height: 100%; border-radius: 20px 0 0 20px; border-right: 0;
+  box-shadow: -14px 24px 40px -30px rgba(30,40,20,.45), inset -10px 0 14px -10px rgba(0,0,0,.12); }
+/* small fold marks on the cover edge */
+.xb .tl-co::after { content: ""; position: absolute; right: 0; top: 14px; bottom: 14px; width: 1px; background: repeating-linear-gradient(180deg, color-mix(in srgb, var(--ink) 25%, transparent) 0 4px, transparent 4px 9px); }
+
+/* inside panel */
+.xb .tl-roles { position: relative; z-index: 1; padding: 22px 24px 22px 80px; border-radius: 0 20px 20px 0;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(90deg, rgba(0,0,0,.13), rgba(0,0,0,.03) 5%, transparent 12%),
+    radial-gradient(color-mix(in srgb, var(--ink) 4%, transparent) 1px, transparent 1px);
+  background-size: auto, 6px 6px;
+  border: 1px solid var(--line); border-left: 0;
+  box-shadow: 18px 26px 44px -32px rgba(30,40,20,.5), 4px 3px 0 -1px var(--paper), 5px 3px 0 -1px var(--line);
+  transform-origin: left center; transform: rotateY(-100deg); opacity: .35;
+  transition: transform 1.5s cubic-bezier(.6,.05,.25,1) .15s, opacity .5s .15s; }
+.xb.open .tl-roles { transform: rotateY(-4deg); opacity: 1; }
+/* page label at the top of the inside panel */
+.xb .tl-roles::before { content: "Inside · Roles & highlights"; position: absolute; top: 8px; right: 22px; font: 600 10px var(--f-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-2); opacity: .55; }
+.xb .tl-roles { padding-top: 30px; }
+/* the spine of the timeline moves with the wider panel padding */
+.xb .tl-spine { left: 43px; top: 48px; }
+
+/* role cards sit on the page like printed blocks */
+.xb .tl-card { box-shadow: 0 6px 14px -10px rgba(0,0,0,.3); }
+/* cascade the role cards in after the panel opens */
+.xb .tl-role .tl-card, .xb .tl-role .tl-dot { transition-delay: 0s; }
+.xb:not(.open) .tl-role .tl-card { opacity: 0; transform: translateX(24px); }
+.xb:not(.open) .tl-role .tl-dot { opacity: 0; transform: scale(.4); }
+.xb.open .tl-role:nth-child(2) .tl-card, .xb.open .tl-role:nth-child(2) .tl-dot { transition-delay: 1.1s; }
+.xb.open .tl-role:nth-child(3) .tl-card, .xb.open .tl-role:nth-child(3) .tl-dot { transition-delay: 1.25s; }
+.xb.open .tl-role:nth-child(4) .tl-card, .xb.open .tl-role:nth-child(4) .tl-dot { transition-delay: 1.4s; }
+.xb.open .tl-role:nth-child(5) .tl-card, .xb.open .tl-role:nth-child(5) .tl-dot { transition-delay: 1.55s; }
+
+/* hover: the brochure flattens a little toward you */
+.xb.open:hover .tl-co { transform: rotateY(1.5deg); }
+.xb.open:hover .tl-roles { transform: rotateY(-1.5deg); }
+
+/* ---------- stacked layout: inside panel unfolds downward ---------- */
+@media (max-width: 960px) {
+  .tl-group.xb { perspective-origin: 50% 0; }
+  .xb .tl-co, .xb.open .tl-co, .xb.open:hover .tl-co { transform: none; }
+  .xb .tl-co::after { left: 14px; right: 14px; top: auto; bottom: 0; width: auto; height: 1px; background: repeating-linear-gradient(90deg, color-mix(in srgb, var(--ink) 25%, transparent) 0 4px, transparent 4px 9px); }
+  .xb .tl-co-card { border-radius: 20px 20px 0 0; border-right: 1px solid var(--line); border-bottom: 0; }
+  .xb .tl-roles { border-radius: 0 0 20px 20px; border-left: 1px solid var(--line); border-top: 0; transform-origin: top center; transform: rotateX(-95deg);
+    background-image: linear-gradient(180deg, rgba(0,0,0,.1), transparent 6%), radial-gradient(color-mix(in srgb, var(--ink) 4%, transparent) 1px, transparent 1px); }
+  .xb.open .tl-roles, .xb.open:hover .tl-roles { transform: none; }
+}
+@media (max-width: 640px) {
+  .xb .tl-roles { padding: 30px 12px 14px; }
+  .xb .tl-roles::before { left: 14px; right: auto; }
+}
