@@ -25,7 +25,7 @@
 
   groups.forEach(function (g) {
     var box = g.querySelector(".tl-roles"); if (!box) return;
-    var pages = Array.prototype.slice.call(box.querySelectorAll(".tl-role"));
+    var pages = Array.prototype.slice.call(box.querySelectorAll(".tl-role")).reverse();   // oldest role first, like reading forward in time
     pages.forEach(openRole);                         // each role has its own page, so show its highlights
     if (pages.length < 2) return;
 
