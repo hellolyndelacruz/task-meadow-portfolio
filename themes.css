@@ -1,0 +1,83 @@
+/* =====================================================================
+   The Task Meadow · themes
+   "Meadow" palette: olive #6B8A4E · sage #D4DFA6 · poppy #D14B4B · peach #F7E3C3
+   Built on the light theme; only tokens and a few accents change.
+   ===================================================================== */
+:root[data-theme="meadow"] {
+  --mw-olive: #6b8a4e; --mw-olive-d: #4e6a36; --mw-olive-dd: #3a5027;
+  --mw-sage: #d4dfa6; --mw-sage-l: #e7edca;
+  --mw-poppy: #d14b4b; --mw-poppy-d: #b83a3a;
+  --mw-peach: #f7e3c3; --mw-peach-l: #fcf3e3;
+
+  --brand: var(--mw-olive-d); --brand-2: var(--mw-olive);
+  --red: #c94545; --red-d: var(--mw-poppy-d);
+  --blue: var(--mw-olive); --blue-d: var(--mw-olive-dd);
+  --green: var(--mw-olive); --green-d: var(--mw-olive-d);
+  --gold: #e3a94f;
+  --ink: #2c3323; --ink-2: #5d6650;
+  --paper: #fffaf1; --cream: var(--mw-peach-l); --sky: var(--mw-sage-l);
+  --gingham: rgba(170, 190, 110, .34); --gingham-solid: #c2d08e;
+  --line: rgba(58, 80, 39, .14);
+  --shadow: 0 18px 40px -18px rgba(78, 70, 40, .42); --shadow-sm: 0 8px 20px -10px rgba(78, 70, 40, .36);
+  --card: #fffbf3; --card-a: rgba(255, 251, 243, .94); --card-2: #fbf0dc;
+  --paper-a: rgba(255, 250, 241, .96); --note: #fffaf1; --cloth: #fdf6e8;
+  --glass: rgba(255, 249, 238, .84); --glass-2: rgba(255, 249, 238, .95);
+  --hole: var(--mw-peach); --track: #ece3c9; --tan: var(--mw-peach); --tan-d: #e2c48f;
+  --veil-1: rgba(252, 243, 227, .88); --veil-2: rgba(252, 243, 227, .96);
+  --tm-green: var(--mw-olive-d);
+  --ld-sky1: var(--mw-sage-l); --ld-sky2: var(--mw-peach-l); --ld-far: #c2d08e; --ld-near: var(--mw-olive);
+  --m1: #eef2d8; --m2: var(--mw-peach-l); --m3: #fffaf1;
+  --night: #33402a;
+  --dk-check: rgba(107, 138, 78, .16);
+  --kb-navy1: #6b8a4e; --kb-navy2: #4e6a36; --kb-navyline: #3a5027;
+  --kb-red1: #d96a6a; --kb-red2: #c94545; --kb-redline: #9e3030;
+  --dk-shut: #6b8a4e; --dk-shut2: #4e6a36;
+  /* enhancements */
+  --sign: var(--mw-sage); --sign-ink: #2f4220;
+  --xp-sky: var(--mw-sage-l); --xp-bg: var(--mw-peach-l); --xp-r3: #dfe7bd; --xp-r2: #c5d39a;
+  --xp-topo: rgba(107, 138, 78, .1);
+  color-scheme: light;
+}
+/* warm, sunlit photo veils */
+[data-theme="meadow"] .photo-bg { background-image: linear-gradient(180deg, rgba(58, 64, 30, .5), rgba(90, 80, 40, .22) 40%, rgba(58, 64, 30, .55)), var(--bg); }
+[data-theme="meadow"] .contact-bg { background-image: linear-gradient(180deg, rgba(58, 64, 30, .5), rgba(90, 80, 40, .2) 40%, rgba(58, 64, 30, .55)), var(--bg); }
+/* poppy for the handwritten words and live accents, olive for structure */
+[data-theme="meadow"] .script, [data-theme="meadow"] .script-h { color: var(--mw-poppy); }
+[data-theme="meadow"] .sec-head.light h2 .script { color: #ffb4a8; }
+[data-theme="meadow"] .links .nav-cta, [data-theme="meadow"] .links .nav-cta.active { background: var(--mw-olive-d); color: #fff; }
+[data-theme="meadow"] .links a:hover, [data-theme="meadow"] .links a.active { color: var(--mw-olive-dd); background: rgba(212, 223, 166, .55); }
+[data-theme="meadow"] .nl-ico { color: var(--mw-olive); }
+[data-theme="meadow"] .links a.active .nl-ico { color: var(--mw-poppy); }
+[data-theme="meadow"] .btn-red { background: var(--mw-olive-d); box-shadow: 0 10px 22px -10px rgba(58, 80, 39, .75); }
+[data-theme="meadow"] .btn-red:hover { background: var(--mw-olive-dd); }
+[data-theme="meadow"] .stop b { background: var(--mw-olive-dd); color: var(--mw-sage); }
+[data-theme="meadow"] .xp-hiker, [data-theme="meadow"] .xp-rope-fill::after { background: var(--mw-poppy); }
+[data-theme="meadow"] .xp-summit { background: #33402a; }
+[data-theme="meadow"] .xp-summit h3 .script { color: var(--mw-peach); }
+[data-theme="meadow"] .home-btn { background: linear-gradient(160deg, #86a566, var(--mw-olive) 55%, var(--mw-olive-d)); }
+[data-theme="meadow"] .sec-head h2 .script::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M3 13 C40 5 90 4 197 9 C150 10 90 12 30 17' fill='none' stroke='%23d4dfa6' stroke-width='7' stroke-linecap='round'/%3E%3C/svg%3E"); }
+[data-theme="meadow"] .alti-scale::after { background: linear-gradient(0deg, var(--mw-olive), var(--mw-poppy)); }
+
+/* ---------- theme button: sun / seedling / moon ---------- */
+.theme-btn .fa-seedling { transform: translateY(140%); opacity: 0; color: #6b8a4e; }
+[data-theme="meadow"] .theme-btn { background: var(--mw-sage); }
+[data-theme="meadow"] .theme-btn .fa-sun { transform: translateY(-140%); opacity: 0; }
+[data-theme="meadow"] .theme-btn .fa-seedling { transform: none; opacity: 1; }
+[data-theme="dark"] .theme-btn .fa-seedling { transform: translateY(-140%); opacity: 0; }
+
+/* ---------- theme picker ---------- */
+.tpick { position: fixed; z-index: 120; width: 300px; max-width: calc(100vw - 20px); padding: 10px; border-radius: 18px; background: var(--card); color: var(--ink); border: 1px solid var(--line); box-shadow: 0 24px 50px -18px rgba(0, 0, 0, .45);
+  opacity: 0; transform: translateY(-8px) scale(.97); transform-origin: top right; pointer-events: none; transition: opacity .2s, transform .25s cubic-bezier(.2, .8, .2, 1); }
+.tpick.open { opacity: 1; transform: none; pointer-events: auto; }
+.tpick-t { margin: 4px 8px 8px; font: 600 11px var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); }
+.tpick button { display: flex; align-items: center; gap: 12px; width: 100%; padding: 9px 10px; border: 2px solid transparent; border-radius: 12px; background: none; color: inherit; cursor: pointer; text-align: left; font: inherit; transition: background .2s, border-color .2s; }
+.tpick button:hover, .tpick button:focus-visible { background: var(--card-2); outline: none; }
+.tpick button[aria-checked="true"] { border-color: var(--green); background: var(--card-2); }
+.tp-sw { display: grid; grid-template-columns: repeat(4, 12px); gap: 3px; padding: 5px; border-radius: 9px; background: rgba(0, 0, 0, .05); flex: none; }
+.tp-sw i { width: 12px; height: 22px; border-radius: 4px; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .08); }
+.tp-txt { flex: 1; min-width: 0; }
+.tp-txt b { display: block; font: 700 15px var(--f-display); }
+.tp-txt small { display: block; font-size: 12.5px; color: var(--ink-2); }
+.tp-check { opacity: 0; color: var(--green); }
+.tpick button[aria-checked="true"] .tp-check { opacity: 1; }
+.tp-new { font: 700 9.5px var(--f-mono); letter-spacing: .08em; background: #d14b4b; color: #fff; padding: 2px 6px; border-radius: 999px; margin-left: 6px; vertical-align: 2px; }

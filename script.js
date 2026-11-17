@@ -215,21 +215,56 @@
     if (!ok3D) { try { start2D(); } catch (e) {} }
   })();
 
-  // 0b. Light / dark theme
+  // 0b. Themes: Alpine (light) · Meadow · Night (dark), chosen from a small picker
   (function () {
     var root = document.documentElement, btn = $("themeBtn"), meta = document.querySelector('meta[name="theme-color"]');
-    function label() {
-      var dark = root.getAttribute("data-theme") === "dark";
-      btn.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
-      if (meta) meta.setAttribute("content", dark ? "#0e1a13" : "#1f4a2c");
+    var THEMES = [
+      { id: "light", name: "Alpine", desc: "Pine green on cream", sw: ["#2f5d3a", "#a9bd94", "#e2b33c", "#f6efdf"], color: "#1f4a2c" },
+      { id: "meadow", name: "Meadow", desc: "Olive, sage, poppy, peach", sw: ["#6b8a4e", "#d4dfa6", "#d14b4b", "#f7e3c3"], color: "#6b8a4e", isNew: true },
+      { id: "dark", name: "Night", desc: "Moss under the stars", sw: ["#5e9a6c", "#3a4840", "#e8c25a", "#2e3a33"], color: "#0e1a13" }
+    ];
+    function cur() { var t = root.getAttribute("data-theme"); return THEMES.some(function (x) { return x.id === t; }) ? t : "light"; }
+    var pop = document.createElement("div");
+    pop.className = "tpick"; pop.id = "tpick"; pop.setAttribute("role", "radiogroup"); pop.setAttribute("aria-label", "Choose a theme");
+    pop.innerHTML = '<p class="tpick-t">Choose a theme</p>' + THEMES.map(function (t) {
+      return '<button type="button" role="radio" data-t="' + t.id + '"><span class="tp-sw" aria-hidden="true">' + t.sw.map(function (c) { return '<i style="background:' + c + '"></i>'; }).join("") +
+        '</span><span class="tp-txt"><b>' + t.name + (t.isNew ? '<span class="tp-new">NEW</span>' : "") + '</b><small>' + t.desc + '</small></span><i class="fa-solid fa-check tp-check" aria-hidden="true"></i></button>';
+    }).join("");
+    document.body.appendChild(pop);
+    var opts = Array.prototype.slice.call(pop.querySelectorAll("button[data-t]"));
+    function sync() {
+      var t = cur(), th = THEMES.filter(function (x) { return x.id === t; })[0];
+      opts.forEach(function (o) { var on = o.getAttribute("data-t") === t; o.setAttribute("aria-checked", on ? "true" : "false"); o.tabIndex = on ? 0 : -1; });
+      btn.setAttribute("aria-label", "Theme: " + th.name + ". Choose a theme");
+      btn.setAttribute("title", "Theme: " + th.name);
+      if (meta) meta.setAttribute("content", th.color);
     }
-    label();
-    btn.addEventListener("click", function () {
-      var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
-      root.setAttribute("data-theme", next);
-      try { localStorage.setItem("swiss-theme", next); } catch (e) {}
-      label();
+    function place() {
+      var r = btn.getBoundingClientRect();
+      pop.style.top = (r.bottom + 10) + "px";
+      pop.style.right = Math.max(10, window.innerWidth - r.right - 6) + "px";
+    }
+    function open() { place(); pop.classList.add("open"); btn.setAttribute("aria-expanded", "true"); var c = pop.querySelector('[aria-checked="true"]'); if (c) c.focus(); }
+    function close(focusBtn) { if (!pop.classList.contains("open")) return; pop.classList.remove("open"); btn.setAttribute("aria-expanded", "false"); if (focusBtn) btn.focus(); }
+    function set(t) {
+      root.setAttribute("data-theme", t);
+      try { localStorage.setItem("swiss-theme", t); } catch (e) {}
+      sync();
+    }
+    btn.setAttribute("aria-haspopup", "true"); btn.setAttribute("aria-expanded", "false"); btn.setAttribute("aria-controls", "tpick");
+    btn.addEventListener("click", function (e) { e.stopPropagation(); if (pop.classList.contains("open")) close(); else open(); });
+    opts.forEach(function (o, i) {
+      o.addEventListener("click", function () { set(o.getAttribute("data-t")); setTimeout(function () { close(true); }, 180); });
+      o.addEventListener("keydown", function (e) {
+        var k = e.key === "ArrowDown" || e.key === "ArrowRight" ? 1 : e.key === "ArrowUp" || e.key === "ArrowLeft" ? -1 : 0;
+        if (k) { e.preventDefault(); var n = opts[(i + k + opts.length) % opts.length]; n.focus(); }
+      });
     });
+    document.addEventListener("click", function (e) { if (!pop.contains(e.target)) close(); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") close(true); });
+    window.addEventListener("resize", function () { if (pop.classList.contains("open")) place(); });
+    window.addEventListener("scroll", function () { if (pop.classList.contains("open")) place(); }, { passive: true });
+    sync();
   })();
 
   // 1. Year
