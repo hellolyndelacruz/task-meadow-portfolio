@@ -35,46 +35,100 @@
     h.setAttribute("aria-label", h.textContent.replace(/\s+/g, " ").trim());
   });
 
-  // 2. Career climb: stats counters
+  // 2. Career climb: stat rings + counters
   var stats = $("xpStats");
   if (stats) onView([stats], function () {
+    stats.classList.add("in");
     $$("b[data-count]", stats).forEach(function (b, i) {
       var to = +b.getAttribute("data-count"), suf = b.getAttribute("data-suffix") || "";
       setTimeout(function () {
         var t0 = performance.now();
         (function f(t) { var k = Math.min(1, (t - t0) / 1300); b.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))) + (k === 1 ? suf : ""); if (k < 1) requestAnimationFrame(f); })(t0);
-      }, 250 + i * 140);
+      }, 300 + i * 160);
     });
   });
 
-  // 3. Elevation profile: hiker walks the line while it draws
-  var map = $("xpMap"), line = $("xpLine"), hiker = $("xpHiker");
-  if (map && line && hiker) {
-    var place = function (k) {
-      var L = line.getTotalLength(), p = line.getPointAtLength(L * k);
-      hiker.style.left = (p.x / 10) + "%"; hiker.style.top = (p.y / 260 * 100) + "%";
-    };
-    place(0);
-    onView([map], function () {
-      map.classList.add("in");
-      var t0 = performance.now() + 300, D = 2900;
-      (function f(t) {
-        var k = Math.max(0, Math.min(1, (t - t0) / D));
-        var e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2; // ease in-out, close to the stroke's curve
-        place(e);
-        if (k < 1) requestAnimationFrame(f); else hiker.classList.add("done");
-      })(performance.now());
-    }, { threshold: .35 });
-    // flags jump to their stop on the trail
-    $$(".xp-flag", map).forEach(function (a) {
-      a.addEventListener("click", function (e) {
-        var t = $(a.getAttribute("data-target")); if (!t) return;
-        e.preventDefault();
-        var y = t.getBoundingClientRect().top + window.pageYOffset - window.innerHeight * .28;
-        window.scrollTo({ top: y, behavior: "smooth" });
-      });
+  // 3. Trail map: the mountain rises, the trail draws, the hiker climbs camp to camp
+  (function () {
+    var sc = $("xpScene"), trail = $("scTrail"), hiker = $("scHiker"), strip = $("scStrip");
+    if (!sc || !trail || !hiker || !strip) return;
+    var data = []; try { data = JSON.parse($("scData").textContent); } catch (e) {}
+    var camps = $$(".sc-camp", sc), chips = $$(".sc-chip", strip);
+    var panel = $("scPanel"), pK = $("scK"), pRole = $("scRole"), pOrg = $("scOrg"), pDur = $("scDur");
+    var L = trail.getTotalLength(), last = camps.length - 1;
+    // where each camp sits along the trail (nearest sampled point)
+    var at = camps.map(function (c) {
+      var x = parseFloat(c.style.getPropertyValue("--x")) * 10, y = parseFloat(c.style.getPropertyValue("--y")) * 3.6, best = 0, bd = 1e9;
+      for (var s = 0; s <= L; s += 2) { var p = trail.getPointAtLength(s), d = (p.x - x) * (p.x - x) + (p.y - y) * (p.y - y); if (d < bd) { bd = d; best = s; } }
+      return best;
     });
-  }
+    var pos = 0, raf = 0, shown = -1, started = false;
+    function put(len) {
+      var p = trail.getPointAtLength(len), q = trail.getPointAtLength(Math.min(L, len + 4));
+      hiker.style.left = (p.x / 10) + "%"; hiker.style.top = (p.y / 3.6) + "%";
+      hiker.classList.toggle("back", q.x < p.x - .01);
+      trail.style.strokeDashoffset = (1000 - len / L * 1000).toFixed(1);
+      strip.style.setProperty("--prog", (len / L).toFixed(4));
+    }
+    function show(k, label) {
+      if (k === shown && !label) return; shown = k;
+      var d = data[k] || {};
+      panel.classList.remove("swap"); void panel.offsetWidth; panel.classList.add("swap");
+      pK.textContent = label || (k === last ? "Summit · next peak" : k === 0 ? "Trailhead · camp 1" : "Camp " + (k + 1) + " of " + (last + 1));
+      pRole.textContent = d.role || ""; pOrg.textContent = (d.org || "") + (d.dates ? " · " + d.dates : "");
+      pDur.innerHTML = '<i class="fa-regular fa-clock"></i> ' + (d.dur || "");
+      camps.forEach(function (c, i) { c.classList.toggle("is-cur", i === k); });
+      chips.forEach(function (c, i) { c.classList.toggle("is-cur", i === k); c.setAttribute("aria-current", i === k ? "step" : "false"); });
+      if (label) shown = -1;
+    }
+    function reach(len) {
+      at.forEach(function (a, i) {
+        var hit = len >= a - 1;
+        camps[i].classList.toggle("reached", hit); chips[i].classList.toggle("reached", hit);
+      });
+      var k = 0; at.forEach(function (a, i) { if (len >= a - 1) k = i; });
+      return k;
+    }
+    function walk(to, ms, done) {
+      cancelAnimationFrame(raf);
+      var from = pos, t0 = performance.now();
+      hiker.classList.add("walking");
+      (function f(t) {
+        var k = Math.min(1, (t - t0) / ms), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+        pos = from + (to - from) * e; put(pos); show(reach(pos));
+        if (k < 1) raf = requestAnimationFrame(f);
+        else { hiker.classList.remove("walking"); if (done) done(); }
+      })(t0);
+    }
+    put(0);
+    function summit() { sc.classList.add("summited"); }
+    onView([sc], function () {
+      sc.classList.add("in");
+      setTimeout(function () { started = true; walk(L, 4200, summit); }, 1300);
+    }, { threshold: .3 });
+    function go(k) {
+      if (!started) return;
+      var to = at[k], ms = Math.max(500, Math.abs(to - pos) / L * 3200);
+      walk(to, ms, function () { show(k); if (k === last) summit(); });
+    }
+    camps.concat(chips).forEach(function (b) {
+      b.addEventListener("click", function () { go(+b.getAttribute("data-k")); });
+      b.addEventListener("mouseenter", function () { if (started) show(+b.getAttribute("data-k"), "Preview"); });
+      b.addEventListener("mouseleave", function () { if (started) show(reach(pos)); });
+    });
+    // double-click / Enter on a chip jumps to the full role on the trail below
+    chips.forEach(function (c) {
+      c.addEventListener("dblclick", function () { var t = $(c.getAttribute("data-target")); if (t) window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - window.innerHeight * .25, behavior: "smooth" }); });
+    });
+    var link = document.createElement("a");
+    link.className = "sc-more"; link.href = "#xp-nanox"; link.innerHTML = 'See the full role <i class="fa-solid fa-arrow-down"></i>';
+    panel.appendChild(link);
+    link.addEventListener("click", function (e) {
+      var d = data[shown] || {}, t = $(d.target); if (!t) return; e.preventDefault();
+      window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - window.innerHeight * .25, behavior: "smooth" });
+    });
+  })();
+
 
   // 4. Trail: stops and signs animate in; rope fills with scroll; active stop syncs with its flag
   var trail = $("xpTrail");
@@ -82,7 +136,7 @@
     onView($$(".xp-stop, .xp-sign", trail), function (el) { el.classList.add("in"); }, { threshold: .18, rootMargin: "0px 0px -80px 0px" });
     var rope = trail.querySelector(".xp-rope"), stops = $$(".xp-stop, .xp-summit", trail), ticking = false;
     var flagFor = {};
-    $$(".xp-flag").forEach(function (f) { flagFor[f.getAttribute("data-target")] = f; });
+    $$(".sc-chip").forEach(function (f) { flagFor[f.getAttribute("data-target")] = f; });
     var update = function () {
       ticking = false;
       var r = rope.getBoundingClientRect(), mid = window.innerHeight * .55;
@@ -163,7 +217,7 @@
       var cur = 0;
       secs.forEach(function (s, i) { if (s.getBoundingClientRect().top < window.innerHeight * .45) cur = i; });
       nm.textContent = names[secs[cur].id];
-      dots.forEach(function (d, i) { d.classList.toggle("cur", i === cur); d.classList.toggle("past", i < cur); });
+      dots.forEach(function (d, i) { d.classList.toggle("is-cur", i === cur); d.classList.toggle("past", i < cur); });
       box.classList.toggle("show", y > window.innerHeight * .5);
     };
     window.addEventListener("scroll", function () { if (!at) { at = true; requestAnimationFrame(tick); } }, { passive: true });
