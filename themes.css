@@ -1,83 +1,168 @@
 /* =====================================================================
    The Task Meadow · themes
-   "Meadow" palette: olive #6B8A4E · sage #D4DFA6 · poppy #D14B4B · peach #F7E3C3
-   Built on the light theme; only tokens and a few accents change.
+   light (Alpine) and dark (Night) live in style.css. The palette themes
+   below are built on the light theme and only change tokens + accents.
+     meadow   · olive #6B8A4E · sage #D4DFA6 · poppy #D14B4B · peach #F7E3C3
+     picnic   · olive #536344 · cream #FBF5E9 · oat #E8D8BE · terracotta #BF765E · brown #382E28
+     lakeside · pine #264F46 · mist #F5F8F4 · lake #A9CBCD · sage #B6C5A4 · charcoal #273B39
    ===================================================================== */
-:root[data-theme="meadow"] {
-  --mw-olive: #6b8a4e; --mw-olive-d: #4e6a36; --mw-olive-dd: #3a5027;
-  --mw-sage: #d4dfa6; --mw-sage-l: #e7edca;
-  --mw-poppy: #d14b4b; --mw-poppy-d: #b83a3a;
-  --mw-peach: #f7e3c3; --mw-peach-l: #fcf3e3;
 
-  --brand: var(--mw-olive-d); --brand-2: var(--mw-olive);
-  --red: #c94545; --red-d: var(--mw-poppy-d);
-  --blue: var(--mw-olive); --blue-d: var(--mw-olive-dd);
-  --green: var(--mw-olive); --green-d: var(--mw-olive-d);
+/* ---------- Meadow ---------- */
+:root[data-theme="meadow"] {
+  --t-1: #6b8a4e; --t-1d: #4e6a36; --t-1dd: #3a5027;
+  --t-accent: #d14b4b; --t-accent-l: #ffb4a8; --t-soft: #d4dfa6; --t-chip: #d4dfa6;
+  --t-veil: 58, 64, 30; --t-veil2: 90, 80, 40;
+
+  --brand: var(--t-1d); --brand-2: var(--t-1);
+  --red: #c94545; --red-d: #b83a3a;
+  --blue: var(--t-1); --blue-d: var(--t-1dd);
+  --green: var(--t-1); --green-d: var(--t-1d);
   --gold: #e3a94f;
   --ink: #2c3323; --ink-2: #5d6650;
-  --paper: #fffaf1; --cream: var(--mw-peach-l); --sky: var(--mw-sage-l);
+  --paper: #fffaf1; --cream: #fcf3e3; --sky: #e7edca;
   --gingham: rgba(170, 190, 110, .34); --gingham-solid: #c2d08e;
   --line: rgba(58, 80, 39, .14);
   --shadow: 0 18px 40px -18px rgba(78, 70, 40, .42); --shadow-sm: 0 8px 20px -10px rgba(78, 70, 40, .36);
   --card: #fffbf3; --card-a: rgba(255, 251, 243, .94); --card-2: #fbf0dc;
   --paper-a: rgba(255, 250, 241, .96); --note: #fffaf1; --cloth: #fdf6e8;
   --glass: rgba(255, 249, 238, .84); --glass-2: rgba(255, 249, 238, .95);
-  --hole: var(--mw-peach); --track: #ece3c9; --tan: var(--mw-peach); --tan-d: #e2c48f;
+  --hole: #f7e3c3; --track: #ece3c9; --tan: #f7e3c3; --tan-d: #e2c48f;
   --veil-1: rgba(252, 243, 227, .88); --veil-2: rgba(252, 243, 227, .96);
-  --tm-green: var(--mw-olive-d);
-  --ld-sky1: var(--mw-sage-l); --ld-sky2: var(--mw-peach-l); --ld-far: #c2d08e; --ld-near: var(--mw-olive);
-  --m1: #eef2d8; --m2: var(--mw-peach-l); --m3: #fffaf1;
+  --tm-green: var(--t-1d);
+  --ld-sky1: #e7edca; --ld-sky2: #fcf3e3; --ld-far: #c2d08e; --ld-near: var(--t-1);
+  --m1: #eef2d8; --m2: #fcf3e3; --m3: #fffaf1;
   --night: #33402a;
   --dk-check: rgba(107, 138, 78, .16);
   --kb-navy1: #6b8a4e; --kb-navy2: #4e6a36; --kb-navyline: #3a5027;
   --kb-red1: #d96a6a; --kb-red2: #c94545; --kb-redline: #9e3030;
   --dk-shut: #6b8a4e; --dk-shut2: #4e6a36;
-  /* enhancements */
-  --sign: var(--mw-sage); --sign-ink: #2f4220;
-  --xp-sky: var(--mw-sage-l); --xp-bg: var(--mw-peach-l); --xp-r3: #dfe7bd; --xp-r2: #c5d39a;
-  --xp-topo: rgba(107, 138, 78, .1);
+  --sign: #d4dfa6; --sign-ink: #2f4220;
+  --xp-sky: #e7edca; --xp-bg: #fcf3e3; --xp-r3: #dfe7bd; --xp-r2: #c5d39a; --xp-topo: rgba(107, 138, 78, .1);
   color-scheme: light;
 }
-/* warm, sunlit photo veils */
-[data-theme="meadow"] .photo-bg { background-image: linear-gradient(180deg, rgba(58, 64, 30, .5), rgba(90, 80, 40, .22) 40%, rgba(58, 64, 30, .55)), var(--bg); }
-[data-theme="meadow"] .contact-bg { background-image: linear-gradient(180deg, rgba(58, 64, 30, .5), rgba(90, 80, 40, .2) 40%, rgba(58, 64, 30, .55)), var(--bg); }
-/* poppy for the handwritten words and live accents, olive for structure */
-[data-theme="meadow"] .script, [data-theme="meadow"] .script-h { color: var(--mw-poppy); }
-[data-theme="meadow"] .sec-head.light h2 .script { color: #ffb4a8; }
-[data-theme="meadow"] .links .nav-cta, [data-theme="meadow"] .links .nav-cta.active { background: var(--mw-olive-d); color: #fff; }
-[data-theme="meadow"] .links a:hover, [data-theme="meadow"] .links a.active { color: var(--mw-olive-dd); background: rgba(212, 223, 166, .55); }
-[data-theme="meadow"] .nl-ico { color: var(--mw-olive); }
-[data-theme="meadow"] .links a.active .nl-ico { color: var(--mw-poppy); }
-[data-theme="meadow"] .btn-red { background: var(--mw-olive-d); box-shadow: 0 10px 22px -10px rgba(58, 80, 39, .75); }
-[data-theme="meadow"] .btn-red:hover { background: var(--mw-olive-dd); }
-[data-theme="meadow"] .stop b { background: var(--mw-olive-dd); color: var(--mw-sage); }
-[data-theme="meadow"] .xp-hiker, [data-theme="meadow"] .xp-rope-fill::after { background: var(--mw-poppy); }
-[data-theme="meadow"] .xp-summit { background: #33402a; }
-[data-theme="meadow"] .xp-summit h3 .script { color: var(--mw-peach); }
-[data-theme="meadow"] .home-btn { background: linear-gradient(160deg, #86a566, var(--mw-olive) 55%, var(--mw-olive-d)); }
-[data-theme="meadow"] .sec-head h2 .script::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M3 13 C40 5 90 4 197 9 C150 10 90 12 30 17' fill='none' stroke='%23d4dfa6' stroke-width='7' stroke-linecap='round'/%3E%3C/svg%3E"); }
-[data-theme="meadow"] .alti-scale::after { background: linear-gradient(0deg, var(--mw-olive), var(--mw-poppy)); }
 
-/* ---------- theme button: sun / seedling / moon ---------- */
-.theme-btn .fa-seedling { transform: translateY(140%); opacity: 0; color: #6b8a4e; }
-[data-theme="meadow"] .theme-btn { background: var(--mw-sage); }
-[data-theme="meadow"] .theme-btn .fa-sun { transform: translateY(-140%); opacity: 0; }
-[data-theme="meadow"] .theme-btn .fa-seedling { transform: none; opacity: 1; }
-[data-theme="dark"] .theme-btn .fa-seedling { transform: translateY(-140%); opacity: 0; }
+/* ---------- Cozy Picnic ---------- */
+:root[data-theme="picnic"] {
+  --t-1: #536344; --t-1d: #424f36; --t-1dd: #313b28;
+  --t-accent: #bf765e; --t-accent-l: #f2b8a4; --t-soft: #e8d8be; --t-chip: #e8d8be;
+  --t-veil: 56, 46, 40; --t-veil2: 120, 84, 60;
+
+  --brand: var(--t-1d); --brand-2: var(--t-1);
+  --red: #a9604a; --red-d: #8f4f3b;
+  --blue: var(--t-1); --blue-d: var(--t-1dd);
+  --green: var(--t-1); --green-d: var(--t-1d);
+  --gold: #d6a04e;
+  --ink: #382e28; --ink-2: #6e5f53;
+  --paper: #fffcf5; --cream: #fbf5e9; --sky: #f1e6d3;
+  --gingham: rgba(191, 118, 94, .2); --gingham-solid: #dfb7a4;
+  --line: rgba(56, 46, 40, .13);
+  --shadow: 0 18px 40px -18px rgba(56, 46, 40, .45); --shadow-sm: 0 8px 20px -10px rgba(56, 46, 40, .38);
+  --card: #fffdf8; --card-a: rgba(255, 253, 248, .94); --card-2: #f5ecdc;
+  --paper-a: rgba(255, 252, 245, .96); --note: #fffcf5; --cloth: #fbf5e9;
+  --glass: rgba(251, 245, 233, .85); --glass-2: rgba(251, 245, 233, .95);
+  --hole: #e8d8be; --track: #ece0cb; --tan: #e8d8be; --tan-d: #d4bb93;
+  --veil-1: rgba(251, 245, 233, .88); --veil-2: rgba(251, 245, 233, .96);
+  --tm-green: var(--t-1d);
+  --ld-sky1: #f1e6d3; --ld-sky2: #fbf5e9; --ld-far: #d4bb93; --ld-near: var(--t-1);
+  --m1: #f1e6d3; --m2: #fbf5e9; --m3: #fffcf5;
+  --night: #382e28;
+  --dk-check: rgba(191, 118, 94, .14);
+  --kb-navy1: #536344; --kb-navy2: #424f36; --kb-navyline: #313b28;
+  --kb-red1: #cf8a73; --kb-red2: #bf765e; --kb-redline: #8f4f3b;
+  --dk-shut: #536344; --dk-shut2: #424f36;
+  --sign: #e8d8be; --sign-ink: #382e28;
+  --xp-sky: #f1e6d3; --xp-bg: #fbf5e9; --xp-r3: #e8d8be; --xp-r2: #d6c09c; --xp-topo: rgba(191, 118, 94, .09);
+  color-scheme: light;
+}
+
+/* ---------- Lakeside Meadow ---------- */
+:root[data-theme="lakeside"] {
+  --t-1: #264f46; --t-1d: #1e4039; --t-1dd: #16302b;
+  --t-accent: #3f8086; --t-accent-l: #bfe0e2; --t-soft: #a9cbcd; --t-chip: #d4e6e7;
+  --t-veil: 22, 44, 42; --t-veil2: 40, 80, 84;
+
+  --brand: var(--t-1d); --brand-2: var(--t-1);
+  --red: #2f6a62; --red-d: #264f46;
+  --blue: #3f8086; --blue-d: #264f46;
+  --green: #3a6b5f; --green-d: var(--t-1);
+  --gold: #c9b25e;
+  --ink: #273b39; --ink-2: #546a67;
+  --paper: #fbfdfb; --cream: #f5f8f4; --sky: #e2eeee;
+  --gingham: rgba(182, 197, 164, .42); --gingham-solid: #b6c5a4;
+  --line: rgba(39, 59, 57, .13);
+  --shadow: 0 18px 40px -18px rgba(22, 44, 42, .42); --shadow-sm: 0 8px 20px -10px rgba(22, 44, 42, .35);
+  --card: #ffffff; --card-a: rgba(255, 255, 255, .94); --card-2: #eef4ef;
+  --paper-a: rgba(251, 253, 251, .96); --note: #fbfdfb; --cloth: #f5f8f4;
+  --glass: rgba(245, 248, 244, .85); --glass-2: rgba(245, 248, 244, .95);
+  --hole: #dbe8e4; --track: #e1ebe6; --tan: #dfe8d6; --tan-d: #b6c5a4;
+  --veil-1: rgba(245, 248, 244, .88); --veil-2: rgba(245, 248, 244, .96);
+  --tm-green: var(--t-1);
+  --ld-sky1: #d4e6e7; --ld-sky2: #f5f8f4; --ld-far: #a9cbcd; --ld-near: #3f8086;
+  --m1: #e2eeee; --m2: #f5f8f4; --m3: #fbfdfb;
+  --night: #273b39;
+  --dk-check: rgba(169, 203, 205, .2);
+  --kb-navy1: #2f6a62; --kb-navy2: #264f46; --kb-navyline: #16302b;
+  --kb-red1: #8fbfc2; --kb-red2: #6aa6aa; --kb-redline: #3f8086;
+  --dk-shut: #3a6b5f; --dk-shut2: #264f46;
+  --sign: #a9cbcd; --sign-ink: #1c3431;
+  --xp-sky: #ddebec; --xp-bg: #f5f8f4; --xp-r3: #c9dfe0; --xp-r2: #a9cbcd; --xp-topo: rgba(38, 79, 70, .08);
+  color-scheme: light;
+}
+
+/* ---------- shared accents for the palette themes ---------- */
+:is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .photo-bg { background-image: linear-gradient(180deg, rgba(var(--t-veil), .5), rgba(var(--t-veil2), .22) 40%, rgba(var(--t-veil), .55)), var(--bg); }
+:is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .contact-bg { background-image: linear-gradient(180deg, rgba(var(--t-veil), .5), rgba(var(--t-veil2), .2) 40%, rgba(var(--t-veil), .55)), var(--bg); }
+:is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) :is(.script, .script-h) { color: var(--t-accent); }
+:is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .sec-head.light h2 .script { color: var(--t-accent-l); }
+:is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .links :is(.nav-cta, .nav-cta.active) { background: var(--t-1d); color: #fff; }
+:is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .links a:is(:hover, .active) { color: var(--t-1dd); background: color-mix(in srgb, var(--t-soft) 55%, transparent); }
+:is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .nl-ico { color: var(--t-1); }
+:is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .links a.active .nl-ico { color: var(--t-accent); }
+:is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .btn-red { background: var(--t-1d); box-shadow: 0 10px 22px -10px color-mix(in srgb, var(--t-1dd) 80%, transparent); }
+:is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .btn-red:hover { background: var(--t-1dd); }
+:is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .stop b { background: var(--t-1dd); color: var(--sign); }
+:is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .xp-hiker,
+:is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .xp-rope-fill::after { background: var(--t-accent); }
+:is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .xp-summit { background: var(--night); }
+:is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .xp-summit h3 .script { color: var(--t-accent-l); }
+:is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .home-btn { background: linear-gradient(160deg, color-mix(in srgb, var(--t-1) 75%, #fff), var(--t-1) 55%, var(--t-1d)); }
+:is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .alti-scale::after { background: linear-gradient(0deg, var(--t-1), var(--t-accent)); }
+:is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .theme-btn { background: var(--t-chip); }
+/* brush underline in each palette's soft colour */
+[data-theme="meadow"] .sec-head h2 .script::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M3 13 C40 5 90 4 197 9 C150 10 90 12 30 17' fill='none' stroke='%23d4dfa6' stroke-width='7' stroke-linecap='round'/%3E%3C/svg%3E"); }
+[data-theme="picnic"] .sec-head h2 .script::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M3 13 C40 5 90 4 197 9 C150 10 90 12 30 17' fill='none' stroke='%23e8d8be' stroke-width='7' stroke-linecap='round'/%3E%3C/svg%3E"); }
+[data-theme="lakeside"] .sec-head h2 .script::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M3 13 C40 5 90 4 197 9 C150 10 90 12 30 17' fill='none' stroke='%23a9cbcd' stroke-width='7' stroke-linecap='round'/%3E%3C/svg%3E"); }
+
+/* ---------- theme button: one icon per theme ---------- */
+:root .theme-btn i.fa-solid { transform: translateY(140%); opacity: 0; }
+:root:not([data-theme]) .theme-btn i.fa-sun, [data-theme="light"] .theme-btn i.fa-sun { transform: none; opacity: 1; color: #e9a400; }
+[data-theme="meadow"] .theme-btn i.fa-seedling { transform: none; opacity: 1; color: #4e6a36; }
+[data-theme="picnic"] .theme-btn i.fa-basket-shopping { transform: none; opacity: 1; color: #a9604a; }
+[data-theme="lakeside"] .theme-btn i.fa-water { transform: none; opacity: 1; color: #264f46; }
+[data-theme="dark"] .theme-btn i.fa-moon { transform: none; opacity: 1; color: #ffd86b; }
 
 /* ---------- theme picker ---------- */
-.tpick { position: fixed; z-index: 120; width: 300px; max-width: calc(100vw - 20px); padding: 10px; border-radius: 18px; background: var(--card); color: var(--ink); border: 1px solid var(--line); box-shadow: 0 24px 50px -18px rgba(0, 0, 0, .45);
+.tpick { position: fixed; z-index: 120; width: 300px; max-width: calc(100vw - 20px); max-height: calc(100vh - 100px); overflow-y: auto; padding: 10px; border-radius: 18px; background: var(--card); color: var(--ink); border: 1px solid var(--line); box-shadow: 0 24px 50px -18px rgba(0, 0, 0, .45);
   opacity: 0; transform: translateY(-8px) scale(.97); transform-origin: top right; pointer-events: none; transition: opacity .2s, transform .25s cubic-bezier(.2, .8, .2, 1); }
 .tpick.open { opacity: 1; transform: none; pointer-events: auto; }
 .tpick-t { margin: 4px 8px 8px; font: 600 11px var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); }
 .tpick button { display: flex; align-items: center; gap: 12px; width: 100%; padding: 9px 10px; border: 2px solid transparent; border-radius: 12px; background: none; color: inherit; cursor: pointer; text-align: left; font: inherit; transition: background .2s, border-color .2s; }
 .tpick button:hover, .tpick button:focus-visible { background: var(--card-2); outline: none; }
 .tpick button[aria-checked="true"] { border-color: var(--green); background: var(--card-2); }
-.tp-sw { display: grid; grid-template-columns: repeat(4, 12px); gap: 3px; padding: 5px; border-radius: 9px; background: rgba(0, 0, 0, .05); flex: none; }
-.tp-sw i { width: 12px; height: 22px; border-radius: 4px; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .08); }
+.tp-sw { display: grid; grid-auto-flow: column; grid-auto-columns: 10px; gap: 3px; padding: 5px; border-radius: 9px; background: rgba(0, 0, 0, .05); flex: none; }
+.tp-sw i { width: 10px; height: 22px; border-radius: 4px; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1); }
 .tp-txt { flex: 1; min-width: 0; }
 .tp-txt b { display: block; font: 700 15px var(--f-display); }
 .tp-txt small { display: block; font-size: 12.5px; color: var(--ink-2); }
 .tp-check { opacity: 0; color: var(--green); }
 .tpick button[aria-checked="true"] .tp-check { opacity: 1; }
-.tp-new { font: 700 9.5px var(--f-mono); letter-spacing: .08em; background: #d14b4b; color: #fff; padding: 2px 6px; border-radius: 999px; margin-left: 6px; vertical-align: 2px; }
+.tp-new { font: 700 9.5px var(--f-mono); letter-spacing: .08em; background: #bf765e; color: #fff; padding: 2px 6px; border-radius: 999px; margin-left: 6px; vertical-align: 2px; }
+
+/* ---------- pieces that had fixed greens: chart line + itinerary cable cars ---------- */
+:is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .xs-a { stop-color: var(--t-1); }
+:is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .xs-b { stop-color: var(--t-1dd); }
+:is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .xp-legend .lg-t { --c: var(--t-1); }
+:is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .cab-box { background: linear-gradient(180deg, color-mix(in srgb, var(--t-1) 82%, #fff), var(--t-1) 45%, var(--t-1dd)); }
+:is([data-theme="meadow"], [data-theme="picnic"], [data-theme="lakeside"]) .cab-stop { color: var(--t-1d); }
+[data-theme="picnic"] .cab-time { color: #f6dccf; }
+[data-theme="lakeside"] .cab-time { color: #d4ecee; }

@@ -220,7 +220,9 @@
     var root = document.documentElement, btn = $("themeBtn"), meta = document.querySelector('meta[name="theme-color"]');
     var THEMES = [
       { id: "light", name: "Alpine", desc: "Pine green on cream", sw: ["#2f5d3a", "#a9bd94", "#e2b33c", "#f6efdf"], color: "#1f4a2c" },
-      { id: "meadow", name: "Meadow", desc: "Olive, sage, poppy, peach", sw: ["#6b8a4e", "#d4dfa6", "#d14b4b", "#f7e3c3"], color: "#6b8a4e", isNew: true },
+      { id: "meadow", name: "Meadow", desc: "Olive, sage, poppy, peach", sw: ["#6b8a4e", "#d4dfa6", "#d14b4b", "#f7e3c3"], color: "#6b8a4e" },
+      { id: "picnic", name: "Cozy Picnic", desc: "Olive, oat, terracotta", sw: ["#536344", "#fbf5e9", "#e8d8be", "#bf765e", "#382e28"], color: "#536344", isNew: true },
+      { id: "lakeside", name: "Lakeside Meadow", desc: "Pine, lake blue, soft sage", sw: ["#264f46", "#f5f8f4", "#a9cbcd", "#b6c5a4", "#273b39"], color: "#264f46", isNew: true },
       { id: "dark", name: "Night", desc: "Moss under the stars", sw: ["#5e9a6c", "#3a4840", "#e8c25a", "#2e3a33"], color: "#0e1a13" }
     ];
     function cur() { var t = root.getAttribute("data-theme"); return THEMES.some(function (x) { return x.id === t; }) ? t : "light"; }
