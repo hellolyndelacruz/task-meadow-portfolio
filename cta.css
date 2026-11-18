@@ -81,3 +81,8 @@
   .cta-book { transform: none; }
   .cta-metrics div { padding: 0 14px; } .cta-metrics b { font-size: 24px; }
 }
+
+/* merged into Contact: the CTA card is the section header */
+#contact .cta-stop { text-align: center; margin-bottom: 16px; }
+#contact .cta-card { margin: 0 0 34px; }
+#contact .cta-stop .stop { margin: 0; }
