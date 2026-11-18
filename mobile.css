@@ -19,7 +19,7 @@
 .m-row > * { scroll-snap-align: start; }
 
 /* ---------- hero: drop the cable-car itinerary (the nav covers it) ---------- */
-#ropeway { display: none !important; }
+/* itinerary shown on phones as a compact list (see planner.css) */
 .hero { min-height: 0 !important; padding-bottom: 56px !important; }
 .postcard { padding: 22px 18px !important; }
 .tag-info { grid-template-columns: 1fr 1fr !important; gap: 8px !important; }

@@ -43,3 +43,35 @@
 .ropeway .cab:hover .cab-box, .ropeway .cab:focus-visible .cab-box { transform: translateY(-4px) scale(1.03) !important;
   box-shadow: 0 0 0 2px var(--it-gold), 0 24px 34px -18px rgba(0,0,0,.65) !important; }
 .ropeway .cab:hover .cab-stop { background: var(--it-gold) !important; color: #2a1f05 !important; }
+
+/* ---------- summit / valley: cream badges with a flag and a tent ---------- */
+.ropeway .rw-station { background: var(--it-card) !important; border-radius: 14px !important; border: 2px solid var(--it-acc);
+  box-shadow: inset 0 3px 0 var(--it-gold), 0 12px 20px -12px rgba(0,0,0,.6) !important; }
+.ropeway .rw-station .rw-wheel { width: auto !important; height: auto !important; border: 0 !important; background: none !important; box-shadow: none !important; animation: none !important; border-radius: 0 !important; }
+.ropeway .rw-station .rw-wheel::after { display: block !important; content: "\f024"; font: 900 17px "Font Awesome 6 Free"; color: var(--it-acc); }
+.ropeway .rw-station.b .rw-wheel::after { content: "\f6bb"; }
+.ropeway .rw-station.a { background: var(--it-acc) !important; }
+.ropeway .rw-station.a .rw-wheel::after { color: #fff; }
+.ropeway .rw-station small { background: var(--it-acc) !important; color: #fff !important; font-weight: 700; }
+
+/* ---------- phones: compact vertical trail ---------- */
+@media (max-width: 760px) {
+  #ropeway { display: block !important; --cw: auto; margin-top: 14px; }
+  .ropeway .rw-head { display: flex !important; justify-content: space-between; align-items: center; gap: 8px; padding: 8px 10px 8px 14px !important; border-radius: 999px; }
+  .ropeway .rw-head > span:first-child { font-size: 11px !important; letter-spacing: .14em !important; }
+  .ropeway .rw-track { height: auto !important; margin-top: 12px !important; padding: 0 0 0 26px !important; display: flex; flex-direction: column; gap: 10px;
+    background: linear-gradient(color-mix(in srgb, var(--green) 70%, #fff), color-mix(in srgb, var(--green) 70%, #fff)) 11px 12px / 3px calc(100% - 24px) no-repeat; }
+  .ropeway .rw-cable, .ropeway .rw-station, .ropeway .cab-grip { display: none !important; }
+  .ropeway .cab { position: relative !important; left: auto !important; top: auto !important; width: auto !important; height: auto !important; opacity: 1 !important; }
+  .ropeway .cab::before { content: ""; position: absolute; left: -21px; top: 50%; width: 11px; height: 11px; margin-top: -5.5px; border-radius: 50%;
+    background: var(--card); border: 2.5px solid var(--it-acc); box-shadow: 0 0 0 3px rgba(0,0,0,.08); }
+  .ropeway .cab-body { position: static !important; animation: none !important; transform: none !important; }
+  .ropeway .cab-box { position: relative !important; inset: auto !important; top: 0 !important; grid-template-columns: 46px minmax(0, 1fr) 28px !important; padding: 6px 7px 6px 10px !important; }
+  .ropeway .cab-time { font-size: 12.5px !important; }
+  .ropeway .cab-win b { font-size: 13px !important; }
+  .ropeway .cab-win small { font-size: 11px !important; }
+  .ropeway .cab-stop { width: 26px !important; height: 26px !important; font-size: 10.5px !important; }
+  .ropeway .cab { animation: itIn .5s calc(var(--i) * .08s) cubic-bezier(.16,1,.3,1) both !important; }
+  @keyframes itIn { from { opacity: 0; transform: translateX(-10px); } }
+}
+@media (max-width: 760px) { .hero .scroll-cue { display: none !important; } #ropeway { margin-bottom: 20px; } }
