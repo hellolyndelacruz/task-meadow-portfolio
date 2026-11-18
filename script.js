@@ -29,12 +29,12 @@
     var dark = root.getAttribute("data-theme") === "dark";
     var ease = function (t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
     var clamp = function (t) { return Math.max(0, Math.min(1, t)); };
-    // 6-second timeline: spin 0–1.2 · flight 1.2–4.2 · arrival 4.2 · zoom 4.9–5.6 · fade 5.5–6.0
+    // 5-second timeline (clock runs 1.2x): spin 0–1.2 · flight 1.2–4.2 · arrival 4.2 · zoom 4.9–5.6 · fade 5.5–6.0
     var FLY0 = 1.2, FLY = 3.0, ZOOM0 = 4.9, ZOOM = .7;
     function flightAt(s) { return ease(clamp((s - FLY0) / FLY)); }
     function counters(tf) { km.textContent = Math.round(DIST * tf).toLocaleString("en-US"); pc.textContent = Math.round(tf * 100) + "%"; }
     [[0, "Boarding in Manila"], [1200, "Taking off from Manila"], [1900, "Cruising over Asia"], [2900, "Crossing into Europe"], [3700, "Descending into Zürich"], [4300, "Welcome to Switzerland!"]].forEach(function (m) {
-      var at = Math.max(0, m[0] - (performance.now() - t0));
+      var at = Math.max(0, m[0] / 1.2 - (performance.now() - t0));
       timers.push(setTimeout(function () { status.textContent = m[1]; status.classList.remove("swap"); void status.offsetWidth; status.classList.add("swap"); }, at));
     });
     function stop() { cancelAnimationFrame(raf); timers.forEach(clearTimeout); }
@@ -125,7 +125,7 @@
       function facing(v) { tmp2.copy(v).applyMatrix4(globe.matrixWorld); camDir.copy(camera.position).sub(tmp2); return tmp2.normalize().dot(camDir.normalize()) > .08; }
       function frame(now) {
         if (!root.classList.contains("loading")) { renderer.dispose(); return; }
-        var s = (now - t0) / 1000, tf = flightAt(s);
+        var s = (now - t0) / 1000 * 1.2, tf = flightAt(s);
         // where the camera looks
         var look;
         if (s < FLY0) look = startDir.clone().applyQuaternion(qI.clone().slerp(qSpin, ease(clamp(s / FLY0))));
@@ -187,7 +187,7 @@
       size(); addEventListener("resize", size);
       function frame(now) {
         if (!root.classList.contains("loading")) return;
-        var s = (now - t0) / 1000, tf = flightAt(s);
+        var s = (now - t0) / 1000 * 1.2, tf = flightAt(s);
         var cam = s < FLY0 ? slerp(startCam, vM, ease(clamp(s / FLY0))) : slerp(vM, vZ, tf);
         var ll = toLL(cam), lon0 = ll[0], lat0 = ll[1] - 6;
         var R = Math.min(cvs.width, cvs.height) * .3 * (.7 + .3 * (1 - Math.pow(1 - clamp(s / .9), 3))) * (1 + 6 * Math.pow(clamp((s - ZOOM0) / ZOOM), 2.2));
