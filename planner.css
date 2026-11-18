@@ -1,67 +1,88 @@
 /* =====================================================================
-   The Task Meadow · hero itinerary as a travel-planner page
-   Paper card, washi tape, script + caps title, timeline with dots,
-   passport stamp and a paper plane on a dotted route.
+   The Task Meadow · hero itinerary as a modern alpine "trail plan"
+   Deep-green glass card, ridge header, live clock, timeline rail that
+   fills, rows that rise in one by one, hiker that walks the rail.
    ===================================================================== */
-.ropeway { --pl-paper: #fbf5ea; --pl-ink: #3b3127; --pl-mute: #8a7b69; --pl-line: #e5d8c3; --pl-acc: var(--green-d); --pl-pink: #e9a8b5;
-  position: relative; padding: 34px 26px 26px; border-radius: 6px; color: var(--pl-ink);
-  background: radial-gradient(rgba(120,90,50,.06) 1px, transparent 1px) 0 0 / 7px 7px, linear-gradient(180deg, #fffaf1, var(--pl-paper));
-  box-shadow: 0 1px 0 #eadfcb, 0 3px 0 -1px #fffaf1, 0 4px 0 -1px #e4d7c1, 0 36px 60px -30px rgba(30,25,15,.55);
-  transform: rotate(1.2deg); }
-[data-theme="dark"] .ropeway { --pl-paper: #2a2620; --pl-ink: #f1e9dc; --pl-mute: #b9ab95; --pl-line: #4a4236;
-  background: radial-gradient(rgba(255,240,210,.05) 1px, transparent 1px) 0 0 / 7px 7px, linear-gradient(180deg, #312c25, var(--pl-paper)); box-shadow: 0 36px 60px -30px rgba(0,0,0,.7); }
-/* washi tape */
-.ropeway::before { content: ""; position: absolute; left: 50%; top: -14px; width: 130px; height: 30px; margin-left: -65px; transform: rotate(-3deg); opacity: .85;
-  background: repeating-linear-gradient(90deg, rgba(255,255,255,.35) 0 6px, transparent 6px 12px), color-mix(in srgb, var(--pl-pink) 70%, #fff);
-  clip-path: polygon(3% 0, 97% 0, 100% 20%, 97% 40%, 100% 60%, 97% 80%, 100% 100%, 0 100%, 3% 80%, 0 60%, 3% 40%, 0 20%); }
-/* passport stamp */
-.ropeway::after { content: "TASK MEADOW \A ✈ 2026 \A ZRH · MNL"; white-space: pre; position: absolute; right: 18px; top: 22px; width: 84px; height: 84px; border-radius: 50%;
-  display: grid; place-content: center; text-align: center; font: 700 8.5px/1.5 var(--f-mono); letter-spacing: .12em; color: color-mix(in srgb, var(--pl-acc) 75%, transparent);
-  border: 2px dashed color-mix(in srgb, var(--pl-acc) 55%, transparent); box-shadow: inset 0 0 0 5px transparent, inset 0 0 0 6px color-mix(in srgb, var(--pl-acc) 35%, transparent);
-  transform: rotate(-14deg) scale(1.6); opacity: 0; }
-.ropeway.go::after { animation: plStamp .5s 1.6s cubic-bezier(.2,.8,.2,1.3) forwards; }
-@keyframes plStamp { to { transform: rotate(-14deg) scale(1); opacity: .9; } }
+.ropeway { --it-bg1: color-mix(in srgb, var(--green-d) 88%, #000); --it-bg2: color-mix(in srgb, var(--green-d) 60%, #0b1410);
+  --it-ink: #f4f1e6; --it-mute: rgba(244,241,230,.62); --it-line: rgba(255,255,255,.12); --it-acc: var(--gold);
+  position: relative; overflow: hidden; isolation: isolate; padding: 0 0 18px; border-radius: 26px; color: var(--it-ink); transform: none;
+  background: radial-gradient(120% 70% at 100% 0%, color-mix(in srgb, var(--it-acc) 18%, transparent), transparent 60%), linear-gradient(165deg, var(--it-bg1), var(--it-bg2));
+  box-shadow: 0 40px 70px -34px rgba(0,0,0,.7), inset 0 0 0 1px rgba(255,255,255,.08); }
+/* subtle topo lines */
+.ropeway::before { content: ""; position: absolute; inset: 0; z-index: -1; opacity: .5; pointer-events: none;
+  background: repeating-radial-gradient(ellipse 70% 50% at 85% 110%, transparent 0 22px, rgba(255,255,255,.04) 22px 23px); }
+.ropeway::after { display: none; }
 
-/* title */
-.ropeway .rw-head { display: block; padding: 0 92px 14px 0; margin: 0 0 6px; border-bottom: 1.5px dashed var(--pl-line); background: none !important; box-shadow: none !important; border-radius: 0 !important; color: var(--pl-ink) !important; }
-.ropeway .rw-head > span:first-child { display: block; font: 700 12px var(--f-mono) !important; letter-spacing: .3em !important; text-transform: uppercase; color: var(--pl-ink) !important; }
+/* ---------- header with a mountain ridge ---------- */
+.ropeway .rw-head { position: relative; display: flex !important; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 22px 22px 54px !important; margin: 0 !important;
+  background: none !important; border: 0 !important; box-shadow: none !important; border-radius: 0 !important; color: var(--it-ink) !important; }
+.ropeway .rw-head > span:first-child { display: flex; flex-direction: column; gap: 2px; font: 600 10.5px var(--f-mono) !important; letter-spacing: .22em !important; text-transform: uppercase; color: var(--it-acc) !important; }
 .ropeway .rw-head > span:first-child i { display: none; }
-.ropeway .rw-head > span:first-child::before { content: "Travel"; display: block; margin-bottom: -6px; font: 700 40px/1 var(--f-hand); letter-spacing: 0; text-transform: none; color: var(--pl-acc); }
-.ropeway .rw-clock { display: inline-flex !important; gap: 6px; margin-top: 10px; padding: 0 !important; background: none !important; font: 600 10.5px var(--f-mono) !important; letter-spacing: .14em; color: var(--pl-mute) !important; }
-.ropeway .rw-clock::before { content: "Destination: The Task Meadow  ·  Local time"; white-space: pre; text-transform: uppercase; }
+.ropeway .rw-head > span:first-child::after { content: "The trail plan"; font: 800 26px/1.1 var(--f-display); letter-spacing: -.01em; text-transform: none; color: var(--it-ink); }
+.ropeway .rw-head > span:first-child::before { display: none; }
+.ropeway .rw-clock { display: inline-flex !important; align-items: center; gap: 7px; padding: 6px 11px !important; border-radius: 999px; background: rgba(255,255,255,.08) !important;
+  border: 1px solid rgba(255,255,255,.14); font: 700 12px var(--f-mono) !important; letter-spacing: .06em; color: var(--it-ink) !important; }
+.ropeway .rw-clock::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 0 rgba(34,197,94,.6); animation: xpLive 1.6s infinite; }
+/* ridge silhouette with snow caps, rises in */
+.ropeway .rw-head::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 46px; pointer-events: none;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--green) 55%, transparent), color-mix(in srgb, var(--green) 25%, transparent));
+  clip-path: polygon(0 100%, 0 70%, 9% 48%, 16% 62%, 27% 22%, 36% 50%, 46% 30%, 55% 58%, 66% 8%, 76% 46%, 85% 32%, 93% 54%, 100% 40%, 100% 100%);
+  transform: translateY(100%); transition: transform 1.1s cubic-bezier(.16,1,.3,1) .1s; }
+.ropeway.go .rw-head::after { transform: none; }
 
-/* hide the cable-car / wood machinery */
+/* hide the old cable-car / wood / planner machinery */
 .ropeway .rw-cable, .ropeway .rw-station, .ropeway .cab-grip, .ropeway .cab::before, .ropeway .cab::after,
-.ropeway .cab-body::after, .ropeway .cab-box::before, .ropeway .cab-box::after { display: none !important; }
+.ropeway .cab-body::before, .ropeway .cab-body::after, .ropeway .cab-box::before, .ropeway .cab-box::after,
+.ropeway .cab-win::before, .ropeway .cab-win::after, .ropeway .cab-stop::before, .ropeway .cab-stop::after { display: none !important; }
 
-/* timeline */
-.ropeway .rw-track { position: relative; height: auto !important; margin: 12px 0 0 !important; padding: 4px 0 0 !important; display: flex; flex-direction: column; gap: 4px; }
-.ropeway .rw-track::before { content: ""; position: absolute; left: 76px; top: 18px; bottom: 18px; width: 2px; background: repeating-linear-gradient(180deg, var(--pl-line) 0 5px, transparent 5px 9px);
-  transform: scaleY(0); transform-origin: top; transition: transform 1.4s .2s cubic-bezier(.65,0,.35,1); }
-.ropeway.go .rw-track::before { transform: none; }
-.ropeway .cab { position: relative !important; left: auto !important; top: auto !important; width: auto !important; height: auto !important; opacity: 0; transform: translateX(-14px); animation: none !important;
-  transition: opacity .5s, transform .6s cubic-bezier(.16,1,.3,1); transition-delay: calc(.4s + var(--i) * .12s); }
+/* ---------- timeline ---------- */
+.ropeway .rw-track { position: relative; height: auto !important; margin: 0 !important; padding: 14px 16px 0 !important; display: flex; flex-direction: column; gap: 6px;
+  /* rail: faint track + gold fill drawn by background-size */
+  background:
+    linear-gradient(var(--it-acc), color-mix(in srgb, var(--green) 70%, #fff)) 86px 26px / 2px 0% no-repeat,
+    linear-gradient(var(--it-line), var(--it-line)) 86px 26px / 2px calc(100% - 52px) no-repeat !important;
+  transition: background-size 1.8s cubic-bezier(.65,0,.35,1) .35s; }
+.ropeway.go .rw-track { background-size: 2px calc(100% - 52px), 2px calc(100% - 52px) !important; }
+.ropeway .rw-track::before, .ropeway .rw-track::after { display: none !important; }
+
+.ropeway .cab { position: relative !important; left: auto !important; top: auto !important; width: auto !important; height: auto !important; text-decoration: none;
+  opacity: 0; transform: translateY(14px); animation: none !important; transition: opacity .55s, transform .7s cubic-bezier(.16,1,.3,1); transition-delay: calc(.35s + var(--i) * .13s); }
 .ropeway.go .cab { opacity: 1; transform: none; }
 .ropeway .cab-body { position: static !important; transform: none !important; animation: none !important; }
-.ropeway .cab-box { position: relative !important; inset: auto !important; display: grid !important; grid-template-columns: 60px 18px minmax(0, 1fr) 30px !important; align-items: center; gap: 8px !important;
-  padding: 7px 8px 7px 0 !important; clip-path: none !important; background: none !important; box-shadow: none !important; border-radius: 12px !important; filter: none !important; transition: background .25s, transform .25s; }
-.ropeway .cab:hover .cab-box, .ropeway .cab:focus-visible .cab-box { background: color-mix(in srgb, var(--pl-acc) 8%, transparent) !important; transform: translateX(4px) !important; }
-/* time column: script-ish day label */
-.ropeway .cab-time { font: 700 12.5px var(--f-mono) !important; letter-spacing: .06em; color: var(--pl-mute) !important; text-align: right; text-shadow: none !important; }
-/* dot on the line (uses the grid's 2nd column via a pseudo on the box) */
-.ropeway .cab-box > .cab-win::before { content: ""; position: absolute; left: 70px; top: 50%; width: 12px; height: 12px; margin-top: -6px; border-radius: 50%;
-  background: var(--pl-paper); border: 2.5px solid var(--pl-acc); box-shadow: 0 0 0 3px var(--pl-paper); transition: background .25s, transform .25s; }
-.ropeway .cab:hover .cab-win::before { background: var(--pl-acc); transform: scale(1.2); }
-.ropeway .cab-win { grid-column: 3; min-width: 0; padding: 0 !important; background: none !important; box-shadow: none !important; }
-.ropeway .cab-win b { font: 700 15px var(--f-display) !important; color: var(--pl-ink) !important; }
-.ropeway .cab-win b i { color: var(--pl-acc) !important; margin-right: 5px; }
-.ropeway .cab-win small { font-size: 12px !important; color: var(--pl-mute) !important; }
-.ropeway .cab-stop { grid-column: 4; width: 28px !important; height: 28px !important; border-radius: 8px !important; font: 700 11px var(--f-mono) !important;
-  background: color-mix(in srgb, var(--pl-pink) 35%, var(--pl-paper)) !important; color: var(--pl-ink) !important; box-shadow: none !important; transform: rotate(-4deg); }
-.ropeway .cab:nth-of-type(even) .cab-stop { background: color-mix(in srgb, var(--pl-acc) 18%, var(--pl-paper)) !important; transform: rotate(4deg); }
+.ropeway .cab-box { position: relative !important; inset: auto !important; display: grid !important; grid-template-columns: 54px 30px minmax(0, 1fr) auto !important; align-items: center; gap: 0 10px !important;
+  padding: 9px 10px 9px 4px !important; clip-path: none !important; border-radius: 16px !important; background: transparent !important; box-shadow: none !important; filter: none !important;
+  transition: background .3s, transform .35s cubic-bezier(.2,.8,.2,1.4), box-shadow .3s; }
+.ropeway .cab:hover .cab-box, .ropeway .cab:focus-visible .cab-box {
+  background: linear-gradient(90deg, rgba(255,255,255,.1), rgba(255,255,255,.03)) !important; box-shadow: inset 0 0 0 1px rgba(255,255,255,.12) !important; transform: translateX(4px) !important; }
+.ropeway .cab-time { font: 700 13px var(--f-mono) !important; letter-spacing: .04em; color: var(--it-mute) !important; text-align: right; text-shadow: none !important; transition: color .3s; }
+.ropeway .cab:hover .cab-time { color: var(--it-acc) !important; }
+/* node on the rail: the section's icon */
+.ropeway .cab-win { display: contents !important; }
+.ropeway .cab-win b { grid-column: 3; grid-row: 1; display: block; min-width: 0; font: 700 15.5px/1.25 var(--f-display) !important; color: var(--it-ink) !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ropeway .cab-win small { grid-column: 3; grid-row: 2; display: block; min-width: 0; font-size: 12px !important; color: var(--it-mute) !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ropeway .cab-win b i { grid-column: 2; position: absolute; left: 68px; top: 50%; width: 30px; height: 30px; margin: -15px 0 0; display: grid; place-items: center; border-radius: 10px;
+  font-size: 12.5px; color: var(--it-ink) !important; background: color-mix(in srgb, var(--green-d) 70%, #000); border: 1.5px solid rgba(255,255,255,.18);
+  transform: scale(0) rotate(-30deg); transition: transform .5s cubic-bezier(.2,.8,.2,1.6), background .3s, color .3s, border-color .3s; transition-delay: calc(.6s + var(--i) * .13s); }
+.ropeway.go .cab-win b i { transform: none; }
+.ropeway .cab:hover .cab-win b i { background: var(--it-acc); color: #2a1f05 !important; border-color: transparent; transform: rotate(-8deg) scale(1.1); transition-delay: 0s; }
+.ropeway .cab-stop { grid-column: 4; grid-row: 1 / span 2; width: auto !important; height: auto !important; padding: 4px 9px; border-radius: 999px !important; font: 700 10.5px var(--f-mono) !important;
+  letter-spacing: .08em; background: rgba(255,255,255,.08) !important; color: var(--it-mute) !important; box-shadow: none !important; transform: none !important; transition: background .3s, color .3s; }
+.ropeway .cab:hover .cab-stop { background: var(--it-acc) !important; color: #2a1f05 !important; }
 
-/* paper plane on a dotted route along the bottom */
-.ropeway .rw-track::after { content: "\f1d8"; font: 900 16px "Font Awesome 6 Free"; position: absolute; right: 6px; bottom: -22px; color: var(--pl-acc); opacity: 0; }
-.ropeway.go .rw-track::after { animation: plFly 2.4s 1.2s cubic-bezier(.45,0,.3,1) forwards; }
-@keyframes plFly { 0% { opacity: 0; transform: translate(-240px, 18px) rotate(10deg); } 20% { opacity: 1; } 100% { opacity: 1; transform: none; } }
-.ropeway .cab-body::before, .ropeway .cab-win::after, .ropeway .cab-stop::before, .ropeway .cab-stop::after { display: none !important; }
+/* ---------- footer note ---------- */
+.ropeway .rw-track + * { display: none; }
+.ropeway::selection { background: var(--it-acc); }
+.ropeway .cab-win b { position: static !important; }
+.ropeway .rw-head { width: auto !important; align-self: stretch; }
+.ropeway .cab-stop { white-space: nowrap; }
+.ropeway .cab-stop::before { content: "STOP "; display: inline !important; position: static !important; opacity: .55; }
+
+/* icon sits inline with the title; the rail node is a dot drawn by the time cell */
+.ropeway .cab-win b i { position: static !important; display: inline-grid !important; width: 24px !important; height: 24px !important; margin: 0 7px 0 0 !important; vertical-align: -5px; font-size: 11px !important; border-radius: 8px !important; }
+.ropeway .cab-box { grid-template-columns: 54px 22px minmax(0, 1fr) auto !important; }
+.ropeway .cab-time { position: relative; }
+.ropeway .cab-time::after { content: ""; position: absolute; right: -21px; top: 50%; width: 12px; height: 12px; margin-top: -6px; border-radius: 50%;
+  background: var(--it-bg1); border: 2.5px solid var(--it-acc); box-shadow: 0 0 0 4px var(--it-bg1);
+  transform: scale(0); transition: transform .45s cubic-bezier(.2,.8,.2,1.6), background .3s; transition-delay: calc(.6s + var(--i) * .13s); }
+.ropeway.go .cab-time::after { transform: none; }
+.ropeway .cab:hover .cab-time::after { background: var(--it-acc); transform: scale(1.25); transition-delay: 0s; }
