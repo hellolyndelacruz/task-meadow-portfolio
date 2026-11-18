@@ -5,7 +5,7 @@
 .svx { padding: 30px 32px 54px; }
 .svx-head { border-bottom: 0; margin-bottom: 10px; padding-bottom: 12px; }
 /* brochure imprint along the bottom edge */
-.svx::after { content: "The Task Meadow  ·  Virtual Assistant Services  ·  Brochure 2026"; position: absolute; left: 0; right: 0; bottom: 18px; text-align: center;
+.svx::after { content: "Task Meadow by Lyn  ·  Admin & Virtual Support  ·  Brochure 2026"; position: absolute; left: 0; right: 0; bottom: 18px; text-align: center;
   font: 600 10.5px var(--f-mono); letter-spacing: .22em; text-transform: uppercase; color: var(--ink-2); opacity: .55; white-space: pre; }
 
 .svx .svx-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; perspective: 1800px; padding: 10px 6px 4px;

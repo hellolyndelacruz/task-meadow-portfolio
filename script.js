@@ -730,7 +730,7 @@
       var fd = new FormData();
       fd.append("access_key", (f.dataset.w3fKey || "").trim());
       fd.append("subject", "Portfolio inquiry from " + name);
-      fd.append("from_name", "Task Meadow Portfolio");
+      fd.append("from_name", "Task Meadow by Lyn");
       fd.append("name", name); fd.append("email", mail); fd.append("message", msg);
       fd.append("botcheck", el.botcheck.checked ? "true" : "");
       fetch("https://api.web3forms.com/submit", { method: "POST", headers: { Accept: "application/json" }, body: fd })
@@ -756,7 +756,7 @@
     var PHONE = "+63 976 079 5952", PHONE_RAW = "639760795952", EMAIL = "hello.lyndelacruz@gmail.com";
     var CAL = "https://calendly.com/hello-lyndelacruz/30min";
     var isPhone = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
-    var gmail = "https://mail.google.com/mail/?view=cm&fs=1&to=" + encodeURIComponent(EMAIL) + "&su=" + encodeURIComponent("Inquiry from your Task Meadow portfolio");
+    var gmail = "https://mail.google.com/mail/?view=cm&fs=1&to=" + encodeURIComponent(EMAIL) + "&su=" + encodeURIComponent("Inquiry from your Task Meadow by Lyn portfolio");
     var MODALS = {
       phone: {
         ico: "fa-solid fa-phone", title: "Phone Number", value: PHONE, desc: "Available for calls, SMS, and WhatsApp.",
