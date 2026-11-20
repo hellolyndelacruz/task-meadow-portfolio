@@ -29,7 +29,7 @@
       mark(days, sel.d); mark(slots, sel.t);
       var x = list[sel.d];
       if (mon) mon.textContent = x.toLocaleDateString("en-US", { month: "long", year: "numeric" });
-      if (txt) txt.textContent = "Book " + x.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }) + " · " + TIMES[sel.t];
+      if (txt) txt.textContent = "Book " + x.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }) + " · ~" + TIMES[sel.t];
       var url = CAL + "?month=" + iso(x).slice(0, 7) + "&date=" + iso(x);
       if (btn) { btn.href = url; btn.dataset.cal = url + "&hide_gdpr_banner=1"; }
     }
