@@ -777,7 +777,7 @@
         actions: [{ label: "Open in Calendly", icon: "fa-solid fa-arrow-up-right-from-square", href: CAL, blank: true, solid: true }]
       }
     };
-    function open(kind) {
+    function open(kind, src) {
       var m = MODALS[kind]; if (!m) return;
       dlg.dataset.kind = kind;
       $("cmIco").className = m.ico;
@@ -785,13 +785,14 @@
       $("cmValue").textContent = m.value; $("cmValue").hidden = !m.value;
       $("cmDesc").textContent = m.desc;
       var emb = $("cmEmbed");
-      if (m.embed && !isPhone) { emb.innerHTML = '<iframe title="Calendly booking" loading="lazy" src="' + m.embed + '"></iframe>'; emb.hidden = false; }
+      var embUrl = (src && src.dataset.cal) || m.embed;
+      if (embUrl && !isPhone) { emb.innerHTML = '<iframe title="Calendly booking" loading="lazy" src="' + embUrl + '"></iframe>'; emb.hidden = false; }
       else { emb.innerHTML = ""; emb.hidden = true; }
       var box = $("cmActions"); box.innerHTML = "";
       m.actions.forEach(function (a) {
         var el;
         if (a.copy) { el = document.createElement("button"); el.type = "button"; el.addEventListener("click", function () { copy(a.copy, a.what); }); }
-        else { el = document.createElement("a"); el.href = a.href; if (a.blank) { el.target = "_blank"; el.rel = "noopener"; } }
+        else { el = document.createElement("a"); el.href = (kind === "meeting" && src && src.dataset.cal) ? src.href : a.href; if (a.blank) { el.target = "_blank"; el.rel = "noopener"; } }
         el.className = "btn " + (a.solid ? "btn-red" : "btn-ghost");
         el.innerHTML = '<i class="' + a.icon + '"></i> ' + a.label;
         box.appendChild(el);
@@ -799,7 +800,7 @@
       dlg.showModal();
     }
     $$("[data-modal]").forEach(function (a) {
-      a.addEventListener("click", function (e) { e.preventDefault(); open(a.dataset.modal); });
+      a.addEventListener("click", function (e) { e.preventDefault(); open(a.dataset.modal, a); });
     });
     dlg.addEventListener("click", function (e) { if (e.target === dlg || e.target.closest("[data-close]")) dlg.close(); });
     dlg.addEventListener("close", function () { $("cmEmbed").innerHTML = ""; });
