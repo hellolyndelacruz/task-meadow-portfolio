@@ -71,3 +71,11 @@
 @media (prefers-reduced-motion: reduce) {
   .dep-led, #depTicker, .dep-list a.on .dep-st, .dep.in .dep-list a { animation: none !important; }
 }
+
+/* keep the board's long single-line content (ticker, titles) from widening the hero grid on narrow screens */
+.dep { min-width: 0; max-width: 100%; }
+@media (max-width: 1080px) {
+  .hero-inner { grid-template-columns: minmax(0, 1fr) !important; }
+  .hero-inner > * { min-width: 0; max-width: 100%; }
+  .dep { width: min(560px, 100%); margin: 40px auto 0; }
+}
