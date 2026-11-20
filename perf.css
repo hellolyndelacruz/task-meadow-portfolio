@@ -44,3 +44,9 @@
 .loader .gl-stamp { animation: stampSlam .35s 3.6s cubic-bezier(.5,0,.75,0) forwards, infoOut .3s ease-in 4.05s forwards !important; }
 .loader .cp-fill { animation: growX 2.5s cubic-bezier(.65,0,.35,1) 1s forwards !important; }
 .loader .cp-plane { animation: cpFly 2.5s cubic-bezier(.65,0,.35,1) 1s forwards !important; }
+
+/* ---- smoothness pass 2 ---- */
+/* fixed photo backgrounds repaint the whole viewport on every scroll frame: scroll them with the page */
+#intro, .photo-bg, .banner-photo { background-attachment: scroll !important; }
+/* sections out of view: freeze their looping animations (perf.js toggles .anim-off) */
+.anim-off, .anim-off *, .anim-off *::before, .anim-off *::after { animation-play-state: paused !important; }

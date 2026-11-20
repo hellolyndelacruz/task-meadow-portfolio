@@ -53,6 +53,8 @@
     st.textContent = (on ? "Online now" : "Away, replies within 24h") + " · " + n.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }) + " PH";
   }
   tick(); setInterval(tick, 30000);
+  function railW() { card.querySelector(".tkt-rail").style.setProperty("--rw", card.offsetWidth + "px"); }
+  railW(); addEventListener("resize", railW);
 
   // split-flap word
   var flap = card.querySelector(".flap"), word = flap ? flap.dataset.text : "";
