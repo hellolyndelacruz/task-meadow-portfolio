@@ -3004,3 +3004,10 @@ html { overflow-x: clip; }
 .links .nav-cta:hover i { transform: translate(3px, -3px) rotate(8deg); }
 @media (max-width: 1240px) and (min-width: 981px) { .links a { padding: 8px 8px; gap: 5px; font-size: 13.5px; } }
 @media (max-width: 980px) { .links a { display: flex; } }
+
+/* hero: single column on tablets/phones, never wider than the screen */
+@media (max-width: 1080px) {
+  .hero-inner { grid-template-columns: minmax(0, 1fr) !important; }
+  .hero-inner > * { min-width: 0; max-width: 100%; }
+}
+html, body { max-width: 100%; overflow-x: clip; }

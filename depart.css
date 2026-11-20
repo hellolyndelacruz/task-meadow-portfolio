@@ -84,3 +84,7 @@
   .dep-cols, .dep-list a { grid-template-columns: 70px minmax(0, 1fr) 34px; }
   .dep-cols .c-st, .dep-st { display: none; }
 }
+/* ticker never contributes width to layout (absolutely positioned inside a fixed-height strip) */
+.dep-tick { position: relative; height: 14px; }
+#depTicker { position: absolute; left: 0; top: 0; }
+.dep-title > span:last-child { min-width: 0; }
