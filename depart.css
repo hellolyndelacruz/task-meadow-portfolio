@@ -1,0 +1,73 @@
+/* Task Meadow Express · hero itinerary as a station departures board */
+.dep { --db: #12161b; --dr: #1a2027; --dh: #232b34; --dg: #f5b941; --dw: #eef1f3; --dm: #8f99a3; --don: #4ade80; --dred: #d6312a;
+  position: relative; width: min(560px, 100%); margin: 30px 0 0 auto; padding: 16px; border-radius: 24px; color: var(--dw);
+  background: linear-gradient(180deg, #1b2129, #0f1317); box-shadow: 0 44px 70px -34px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.09), 0 0 0 1px rgba(255,255,255,.07); }
+/* hanging rods */
+.dep::before, .dep::after { content: ""; position: absolute; top: -30px; width: 4px; height: 30px; border-radius: 2px; background: linear-gradient(90deg, #6f7a84, #c2c9cf, #6f7a84); }
+.dep::before { left: 24%; } .dep::after { right: 24%; }
+
+.dep-head { display: flex; align-items: center; gap: 12px; padding: 2px 2px 14px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.dep-title { display: flex; align-items: center; gap: 11px; min-width: 0; }
+.dep-ico { flex: none; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 11px; background: var(--dred); color: #fff; font-size: 16px; box-shadow: 0 6px 14px -6px var(--dred); }
+.dep-title b { display: block; font: 700 15px var(--f-mono); letter-spacing: .2em; text-transform: uppercase; }
+.dep-title small { display: block; margin-top: 2px; font: 600 11px var(--f-body); color: var(--dm); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dep-clock { flex: none; margin-left: auto; padding: 7px 11px; border-radius: 10px; font: 700 13px var(--f-mono); letter-spacing: .08em; color: var(--dg); background: #07090b; box-shadow: inset 0 1px 3px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.06); }
+
+.dep-cols, .dep-list a { display: grid; grid-template-columns: 74px minmax(0, 1fr) 84px 36px; align-items: center; gap: 12px; }
+.dep-cols { padding: 12px 14px 6px; font: 700 9.5px var(--f-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--dm); }
+.dep-cols span:last-child { text-align: center; }
+
+.dep-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; perspective: 900px; }
+.dep-list a { position: relative; overflow: hidden; padding: 11px 14px; border-radius: 14px; text-decoration: none; color: inherit; background: var(--dr);
+  transition: background .3s, opacity .3s; }
+.dep-list a::before { content: ""; position: absolute; left: 0; top: 8px; bottom: 8px; width: 3px; border-radius: 0 3px 3px 0; background: var(--dg); transform: scaleY(0); transition: transform .35s cubic-bezier(.2,.8,.2,1.3); }
+.dep-list a:hover, .dep-list a.on { background: var(--dh); }
+.dep-list a.on::before { transform: none; }
+.dep-list a.gone { opacity: .55; }
+.dep-list a:focus-visible { outline: 2px solid var(--dg); outline-offset: 2px; }
+
+/* split-flap time */
+.dep-time { display: inline-flex; gap: 2px; font: 700 17px/1 var(--f-mono); color: var(--dg); font-variant-numeric: tabular-nums; perspective: 300px; }
+.dep-time span { position: relative; display: inline-grid; place-items: center; width: .82em; padding: 5px 0; border-radius: 4px; background: linear-gradient(180deg, #2a3139 0 50%, #20262d 50% 100%); box-shadow: 0 2px 0 #0a0d10; }
+.dep-time span.c { width: .4em; background: none; box-shadow: none; }
+.dep-time span:not(.c)::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: rgba(0,0,0,.6); }
+.dep-time span.fl { animation: depFlap .12s ease-in-out; }
+@keyframes depFlap { 50% { transform: rotateX(-85deg); } }
+
+.dep-dest { min-width: 0; }
+.dep-dest b { display: block; font: 800 14.5px var(--f-body); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dep-dest b i { width: 18px; color: var(--dg); }
+.dep-dest small { display: block; margin-top: 1px; font-size: 11.5px; color: var(--dm); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dep-st { font: 700 10px var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--don); }
+.dep-list a.gone .dep-st { color: var(--dm); }
+.dep-list a.on .dep-st { color: var(--dg); animation: depBlink 1.1s steps(2, start) infinite; }
+@keyframes depBlink { to { visibility: hidden; } }
+.dep-pl { display: grid; place-items: center; height: 28px; border-radius: 8px; font: 700 13px var(--f-mono); color: var(--dw); border: 1px solid rgba(255,255,255,.14); transition: background .3s, color .3s; }
+.dep-list a.on .dep-pl { background: var(--dg); color: #1d1606; border-color: transparent; }
+
+/* ticker */
+.dep-foot { display: flex; align-items: center; gap: 10px; margin-top: 10px; padding: 9px 12px; border-radius: 12px; background: #07090b; box-shadow: inset 0 1px 3px rgba(0,0,0,.6); }
+.dep-led { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--dred); box-shadow: 0 0 8px var(--dred); animation: depLed 1.4s ease-in-out infinite; }
+@keyframes depLed { 50% { opacity: .3; } }
+.dep-tick { flex: 1; min-width: 0; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+#depTicker { display: inline-block; white-space: nowrap; font: 700 11px var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--dg); animation: depTick 28s linear infinite; will-change: transform; }
+@keyframes depTick { to { transform: translateX(-50%); } }
+
+/* entrance: rows flip down like a board updating */
+.dep .dep-list a, .dep .dep-head, .dep .dep-cols, .dep .dep-foot { opacity: 0; }
+.dep.in .dep-head, .dep.in .dep-cols, .dep.in .dep-foot { opacity: 1; transition: opacity .6s .1s; }
+.dep.in .dep-list a { opacity: 1; animation: depRow .6s calc(.25s + var(--i) * .09s) cubic-bezier(.2,.8,.2,1) backwards; }
+.dep.in .dep-list a.gone { opacity: .55; }
+@keyframes depRow { from { opacity: 0; transform: rotateX(-70deg) translateY(-8px); transform-origin: top; } }
+
+@media (max-width: 760px) {
+  .dep { margin: 40px auto 0; padding: 12px; border-radius: 20px; }
+  .dep-cols, .dep-list a { grid-template-columns: 62px minmax(0, 1fr) 30px; gap: 10px; }
+  .dep-cols .c-st, .dep-st { display: none; }
+  .dep-list a { padding: 10px; }
+  .dep-time { font-size: 14px; }
+  .dep-title b { font-size: 13px; letter-spacing: .14em; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dep-led, #depTicker, .dep-list a.on .dep-st, .dep.in .dep-list a { animation: none !important; }
+}
