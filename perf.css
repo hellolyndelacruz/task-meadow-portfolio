@@ -50,3 +50,5 @@
 #intro, .photo-bg, .banner-photo { background-attachment: scroll !important; }
 /* sections out of view: freeze their looping animations (perf.js toggles .anim-off) */
 .anim-off, .anim-off *, .anim-off *::before, .anim-off *::after { animation-play-state: paused !important; }
+/* while the window is being resized: no transitions or looping animations */
+html.rs *, html.rs *::before, html.rs *::after { transition: none !important; animation-play-state: paused !important; }

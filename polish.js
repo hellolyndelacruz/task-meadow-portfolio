@@ -80,17 +80,16 @@
   });
 })();
 
-/* Mobile: turn long stacks into swipe rows */
+/* Swipe rows: classes are always set; mobile.css (≤760px only) is what turns them into rows,
+   so the layout follows window resizes without re-running this */
 (function () {
-  if (!window.matchMedia || !matchMedia("(max-width: 760px)").matches) return;
   [".sv-grid", ".certs", ".tl-roles"].forEach(function (s) {
     Array.prototype.forEach.call(document.querySelectorAll(s), function (el) { if (s !== ".tl-roles") el.classList.add("m-row"); });
   });
 })();
 
-/* Mobile: dots under swipe rows */
+/* Dots under swipe rows (styled only in mobile.css) */
 (function () {
-  if (!window.matchMedia || !matchMedia("(max-width: 760px)").matches) return;
   Array.prototype.forEach.call(document.querySelectorAll(".m-row"), function (row) {
     var n = row.children.length; if (n < 2) return;
     var dots = document.createElement("div"); dots.className = "m-row-hint"; dots.setAttribute("aria-hidden", "true");
