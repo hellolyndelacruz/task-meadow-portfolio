@@ -40,6 +40,7 @@
   <link rel="stylesheet" href="realism.css?v=2">
   <link rel="stylesheet" href="desk2.css?v=4">
   <link rel="stylesheet" href="cta.css?v=5">
+  <link rel="stylesheet" href="ticket.css?v=1">
   <link rel="stylesheet" href="brand.css?v=4">
   <link rel="stylesheet" href="perf.css?v=2">
 </head>
@@ -961,38 +962,44 @@
     <section id="contact" class="scene photo-bg contact-bg" style="--bg:url('assets/swiss/contact-brienz.jpg')">
       <div class="wrap">
         <div class="cta-stop"><p class="stop"><b>09 / 09</b> Contact</p></div>
-        <div class="cta-card reveal">
-          <span class="cta-border" aria-hidden="true"></span>
-          <span class="cta-aur a1" aria-hidden="true"></span><span class="cta-aur a2" aria-hidden="true"></span>
-          <svg class="cta-ridge" viewBox="0 0 600 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 120 L0 80 L70 52 L130 74 L210 24 L290 66 L360 40 L430 70 L500 30 L600 64 L600 120Z"/></svg>
-          <div class="cta-txt">
-            <p class="cta-kick"><span class="cta-dot"></span> Available for remote VA work</p>
-            <h2 id="ctaTitle">Ready to hand off the <span class="cta-grad">busywork?</span></h2>
-            <p class="cta-lead">Let me keep your inbox, calendar, records and client follow-ups running smoothly, so you can focus on growing your business.</p>
-            <div class="cta-metrics">
-              <div><b data-count="8" data-suf="+">8+</b><small>years in support</small></div>
-              <div><b>97%</b><small>typing accuracy</small></div>
-              <div><b>&lt;24h</b><small>reply time</small></div>
+        <div class="tkt-wrap reveal">
+        <div class="tkt" id="tkt">
+          <span class="tkt-rail" aria-hidden="true"><span class="tkt-train"><i class="fa-solid fa-train-subway"></i></span></span>
+          <div class="tkt-main">
+            <header class="tkt-head">
+              <span class="tkt-brand"><span class="tkt-cross" aria-hidden="true"></span> Task Meadow Express</span>
+              <span class="tkt-route" aria-label="Route: Manila to you"><b>MNL</b><i aria-hidden="true"></i><b>YOU</b></span>
+              <span class="tkt-no">TM 0925</span>
+            </header>
+            <p class="tkt-kick"><span class="tkt-live" aria-hidden="true"></span> Now boarding · Available for remote VA work</p>
+            <h2 id="ctaTitle">Ready to hand off the <span class="flap" data-text="busywork?">busywork?</span></h2>
+            <p class="tkt-lead">Let me keep your inbox, calendar, records and client follow-ups running smoothly, so you can focus on growing your business.</p>
+            <div class="tkt-board">
+              <div><b data-count="8" data-suf="+">8+</b><small>Years in support</small></div>
+              <div><b data-count="97" data-suf="%">97%</b><small>Typing accuracy</small></div>
+              <div><b>&lt;24h</b><small>Reply time</small></div>
             </div>
-            <ul class="cta-perks"><li><i class="fa-solid fa-shield-halved"></i> HIPAA-trained</li><li><i class="fa-solid fa-stethoscope"></i> Medical VA</li><li><i class="fa-solid fa-earth-asia"></i> Remote · PH</li></ul>
+            <ul class="tkt-stamps"><li><i class="fa-solid fa-shield-halved"></i> HIPAA-trained</li><li><i class="fa-solid fa-stethoscope"></i> Medical VA</li><li><i class="fa-solid fa-earth-asia"></i> Remote · PH</li></ul>
           </div>
-          <div class="cta-book">
-            <div class="cbk-top">
-              <img src="assets/lyn-photo.jpg" alt="" width="44" height="44">
-              <div><b>Intro call with Lyn</b><small><i class="fa-regular fa-clock"></i> 30 min · Google Meet / Zoom</small><small class="cbk-status" id="ctaStatus" aria-live="polite"></small></div>
-              <span class="cbk-free">Free</span>
+          <div class="tkt-stub">
+            <div class="stub-top">
+              <span class="stub-av"><img src="assets/lyn-photo.jpg" alt="" width="46" height="46"></span>
+              <div class="stub-who"><small>Passenger service</small><b>Intro call with Lyn</b><span><i class="fa-regular fa-clock"></i> 30 min · Google Meet / Zoom</span><em id="ctaStatus" aria-live="polite"></em></div>
+              <span class="stub-free" aria-label="Free">Free</span>
             </div>
-            <div class="cbk-row"><p class="cbk-label">Pick a day</p><span class="cbk-month" id="cbkMonth"></span></div>
-            <div class="cbk-days" id="cbkDays" role="radiogroup" aria-label="Day"><span style="--i:0"><small>Mon</small><b>23</b><i></i></span><span style="--i:1"><small>Tue</small><b>24</b><i></i></span><span style="--i:2" class="on"><small>Wed</small><b>25</b><i></i></span><span style="--i:3"><small>Thu</small><b>26</b><i></i></span><span style="--i:4"><small>Fri</small><b>27</b><i></i></span></div>
-            <p class="cbk-label">Preferred time</p>
-            <div class="cbk-slots" id="cbkSlots" role="radiogroup" aria-label="Time"><span style="--i:0">9:00 AM</span><span style="--i:1">1:30 PM</span><span style="--i:2">4:00 PM</span></div>
-            <p class="cbk-tz"><i class="fa-solid fa-earth-asia"></i> Philippine Time (GMT+8) · final slot confirmed in Calendly</p>
-            <a class="cta-btn main" href="https://calendly.com/hello-lyndelacruz/30min" target="_blank" rel="noopener" data-modal="meeting"><i class="fa-regular fa-calendar-check"></i><span id="cbkBtnTxt">Book a free 30-min call</span><i class="fa-solid fa-arrow-right cta-arrow"></i></a>
-            <div class="cbk-alt">
-              <a href="#contact"><i class="fa-regular fa-paper-plane"></i> Send a message</a>
+            <div class="stub-row"><p class="stub-label">Travel date</p><span class="stub-month" id="cbkMonth"></span></div>
+            <div class="stub-days" id="cbkDays" role="radiogroup" aria-label="Travel date"></div>
+            <div class="stub-row"><p class="stub-label">Preferred departure</p><span class="stub-month">PHT · GMT+8</span></div>
+            <div class="stub-deps" id="cbkSlots" role="radiogroup" aria-label="Preferred time"></div>
+            <a class="stub-book" href="https://calendly.com/hello-lyndelacruz/30min" target="_blank" rel="noopener" data-modal="meeting"><i class="fa-solid fa-ticket"></i><span id="cbkBtnTxt">Book a free 30-min call</span><i class="fa-solid fa-arrow-right stub-arrow"></i></a>
+            <div class="stub-alt">
+              <a href="#contactForm"><i class="fa-regular fa-paper-plane"></i> Send a message</a>
               <a href="assets/Marilyn-Dela-Cruz-Resume.pdf" target="_blank" rel="noopener" download><i class="fa-solid fa-file-arrow-down"></i> Download CV</a>
             </div>
+            <p class="stub-note">Final slot confirmed in Calendly</p>
+            <div class="stub-foot" aria-hidden="true"><span class="stub-bar"></span><span class="stub-meta"><b>PLATFORM 09</b><b>SEAT 1A</b><b>FIRST CLASS</b></span></div>
           </div>
+        </div>
         </div>
 
         <div class="contact-grid">
@@ -1087,7 +1094,7 @@
   <script src="script.js?v=59"></script>
   <script src="enhance.js?v=5"></script>
   <script src="polish.js?v=6"></script>
-  <script src="booking.js?v=2"></script>
+  <script src="booking.js?v=3"></script>
   <script src="summit.js?v=3"></script>
   <script src="xpbook.js?v=7"></script>
   <script src="fold.js?v=1"></script>
