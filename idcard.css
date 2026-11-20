@@ -91,3 +91,20 @@
   .idc-head { margin-top: -40px; }
   .idc-photo { width: 80px; height: 80px; }
 }
+
+/* "Let's connect" pill with round, brand-tinted icons */
+.idc-connect { margin: 4px 0 8px; text-align: center; font-size: 21px; line-height: 1; color: var(--ink); }
+.idc-connect i { font-size: 12px; color: var(--gold, #d9a441); transform: translateY(2px) rotate(-10deg); margin-left: 2px; }
+.idc-social { display: flex !important; justify-content: center; gap: 6px !important; padding: 7px; margin: 0 auto 2px; width: fit-content; max-width: 100%;
+  border-radius: 999px; background: #fff; box-shadow: 0 8px 18px -10px rgba(40,50,30,.35), 0 0 0 1px rgba(0,0,0,.04); }
+.idc-social a { flex: 0 1 38px; width: 38px; height: 38px !important; min-width: 0; aspect-ratio: 1; border-radius: 50% !important; border: 0 !important; font-size: 15px;
+  background: var(--sb) !important; color: var(--sc) !important; transition: transform .25s cubic-bezier(.2,.8,.2,1.4), background .25s, color .25s !important; }
+.idc-social a:hover { transform: translateY(-3px) scale(1.06); background: var(--sc) !important; color: #fff !important; }
+.idc-social a[aria-label="LinkedIn"]  { --sb: #e2ecf7; --sc: #0a66c2; }
+.idc-social a[aria-label="Facebook"]  { --sb: #e3edfc; --sc: #1877f2; }
+.idc-social a[aria-label="Instagram"] { --sb: #fbe6ef; --sc: #d62976; }
+.idc-social a[aria-label="TikTok"]    { --sb: #ececec; --sc: #111; }
+.idc-social a[aria-label="Linktree"]  { --sb: #e6f2e0; --sc: #3f8f3a; }
+.idc-social a[aria-label="Email"]     { --sb: #fde4e1; --sc: #d6312a; }
+.idc-social a[aria-label="Phone"]     { --sb: #e2efe3; --sc: #2f7a3c; }
+.ab-profile .idc-connect.script { color: var(--green-d, #3d5a2f); }
