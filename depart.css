@@ -79,3 +79,8 @@
   .hero-inner > * { min-width: 0; max-width: 100%; }
   .dep { width: min(560px, 100%); margin: 40px auto 0; }
 }
+/* two-column hero on smaller laptops: give destinations room */
+@media (min-width: 1081px) and (max-width: 1260px) {
+  .dep-cols, .dep-list a { grid-template-columns: 70px minmax(0, 1fr) 34px; }
+  .dep-cols .c-st, .dep-st { display: none; }
+}
