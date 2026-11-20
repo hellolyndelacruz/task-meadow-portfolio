@@ -134,7 +134,7 @@
 /* ---------- contact ---------- */
 .bp-form { padding: 18px 16px !important; }
 .connect { padding: 14px 16px 16px !important; }
-.connect-grid { grid-template-columns: repeat(4, 1fr) !important; gap: 8px !important; }
+.connect-grid { grid-template-columns: repeat(5, 1fr) !important; gap: 6px !important; }
 .connect-grid > * { padding: 12px 4px !important; min-height: 0 !important; }
 .connect-grid small { display: none !important; }
 .connect-grid b { font-size: 11.5px !important; }
