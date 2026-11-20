@@ -63,7 +63,7 @@
 .ab-profile.idc.in .idc-stats span i { transform: none; }
 .idc-stats li:nth-child(2) span i { transition-delay: .65s; } .idc-stats li:nth-child(3) span i { transition-delay: .8s; }
 
-.idc-social { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.idc-social { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
 .idc-social a { height: 40px; display: grid; place-items: center; border-radius: 12px; text-decoration: none; color: var(--ink); background: var(--card-2); border: 1px solid var(--line);
   transition: transform .25s cubic-bezier(.2,.8,.2,1.4), background .25s, color .25s; }
 .idc-social a:hover { transform: translateY(-3px); background: var(--green); color: #fff; border-color: transparent; }
